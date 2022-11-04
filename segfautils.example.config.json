@@ -1,0 +1,11 @@
+{
+	"port": 3000,
+	"token": "your announcements token",
+    "hcaptcha_secret": "your hcaptcha secret obtained form hcaptcha.com",
+    "hcaptcha_sitekey": "your hcaptcha sitekey",
+    "webhook_url": "your discord webhook url",
+	"state": {
+		"announcements": true,
+		"form": true
+	}
+}

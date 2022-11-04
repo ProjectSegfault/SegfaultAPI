@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta
+			http-equiv="X-UA-Compatible"
+			content="IE=edge"
+		/>
+		<meta
+			name="viewport"
+			content="width=device-width, initial-scale=1.0"
+		/>
+		<title>Segfautils form implementation example</title>
+		<style>
+			body {
+				background-color: #252525;
+				color: #fff;
+				font-family: "JetBrains Mono", "JetBrainsMono Nerd Font",
+					monospace;
+			}
+
+			a {
+				color: #00d4aa;
+			}
+
+			a:hover {
+				color: #4beacb;
+			}
+		</style>
+		<script
+			src="https://js.hcaptcha.com/1/api.js"
+			async
+			defer
+		></script>
+	</head>
+
+	<body>
+		<form
+			action="/api/v1/form"
+			method="POST"
+		>
+			<div class="meta">
+				<input
+					type="text"
+					name="email"
+					placeholder="Your email"
+					required
+				/>
+				<select
+					id="commentType"
+					name="commentType"
+					required
+				>
+					<option
+						value=""
+						selected
+						disabled
+					>
+						Select a type of comment
+					</option>
+					<option value="Feedback">Feedback</option>
+					<option value="Suggestion">Suggestion</option>
+					<option value="Question">Question</option>
+					<option value="Bug">Bug</option>
+				</select>
+			</div>
+			<textarea
+				id="comment"
+				name="message"
+				rows="4"
+				cols="25"
+				required
+				placeholder="Your message"
+			></textarea>
+			<div
+				class="h-captcha"
+				data-sitekey="67e84266-980c-4050-8a39-142a91928fe8"
+			></div>
+			<input
+				type="submit"
+				value="Submit"
+			/>
+		</form>
+	</body>
+</html>
