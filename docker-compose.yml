@@ -1,0 +1,10 @@
+services:
+
+  segfaultapi:
+      container_name: segfaultapi
+      image: projectsegfault/segfaultapi
+      restart: always
+      ports:
+          - "6893:6893"
+      volumes:
+          - "./data:/usr/src/app/data"
