@@ -5,6 +5,7 @@ const port = config.port;
 import statusApi from "./api/status";
 import announcementsApi from "./api/announcements";
 import formApi from "./api/form";
+import validateConfig from "./utils/validateConfig";
 
 app.use(express.urlencoded({ extended: true }));
 
@@ -28,5 +29,6 @@ app.get("/api/v1/status", async (req, res) => {
 });
 
 app.listen(port, () => {
-	console.log(`[Segfautils] listening on port ${port}`);
+    validateConfig();
+	console.log(`[SegfaultAPI] listening on port ${port}`);
 });

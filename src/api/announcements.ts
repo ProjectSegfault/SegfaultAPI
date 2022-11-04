@@ -3,7 +3,7 @@ import config from "../../config.json";
 
 const announcementsApi = (app) => {
 	if (config.state.announcements === false) {
-		console.log("[Segfautils] The announcements api is disabled.");
+		console.log("[SegfaultAPI] The announcements api is disabled.");
 		app.get("/tools/announcements", async (req, res) => {
 			res.send("The announcements api is disabled.");
 		});

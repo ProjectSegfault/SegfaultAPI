@@ -4,7 +4,7 @@ import { Webhook } from "discord-webhook-node";
 
 const formApi = (app) => {
 	if (config.state.form === false) {
-		console.log("[Segfautils] The form api is disabled.");
+		console.log("[SegfaultAPI] The form api is disabled.");
 		app.get("/tools/form", async (req, res) => {
 			res.send("The form api is disabled.");
 		});
