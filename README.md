@@ -8,7 +8,7 @@ It powers our website's contact form, announcements and instances page.
 
 ### Docker
 ```
-docker run -d --restart=always -p 6893:6893 --name segfautils -v "$(pwd)"/data:/segfautils/data projectsegfault/segfautils:latest
+docker run -d --restart=always -p 6893:6893 --name segfaultapi -v "$(pwd)"/data:/segfaultapi/data projectsegfault/segfaultapi:latest
 ```
 You need to rename the ``config.example.json`` to ```config.json`` and customize the values in the config file.
 
