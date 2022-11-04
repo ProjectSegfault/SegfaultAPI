@@ -1,3 +1,4 @@
 node_modules
 dist
-segfautils.config.json
+config.json
+data/announcements.json

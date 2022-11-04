@@ -1,12 +1,12 @@
 import express from "express";
-import config from "../segfautils.config.json";
+import config from "../config.json";
 const app = express();
 const port = config.port;
 import statusApi from "./api/status";
 import announcementsApi from "./api/announcements";
 import formApi from "./api/form";
 
-app.use(express.urlencoded({ extended: true }))
+app.use(express.urlencoded({ extended: true }));
 
 app.get("/", (req, res) => {
 	res.sendFile("./public/index.html", { root: "./" });

@@ -1,5 +1,5 @@
 import fs from "fs";
-import config from "../../segfautils.config.json";
+import config from "../../config.json";
 
 const announcementsApi = (app) => {
 	if (config.state.announcements === false) {
