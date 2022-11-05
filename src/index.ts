@@ -1,34 +1,48 @@
-import express from "express";
+import Fastify from 'fastify'
+import fastifyStatic from '@fastify/static';
+import formBodyPlugin from '@fastify/formbody';
+import fastifySensible from '@fastify/sensible';
 import config from "../config.json";
-const app = express();
-const port = config.port;
 import statusApi from "./api/status";
 import announcementsApi from "./api/announcements";
 import formApi from "./api/form";
 import validateConfig from "./utils/validateConfig";
+import { dirname } from 'path';
+import { fileURLToPath } from 'url';
 
-app.use(express.urlencoded({ extended: true }));
+const __filename = fileURLToPath(import.meta.url);
 
-app.get("/", (req, res) => {
-	res.sendFile("./public/index.html", { root: "./" });
+const __dirname = dirname(__filename);
+
+const fastify = Fastify({
+    logger: true
+})
+
+fastify.register(formBodyPlugin)
+
+fastify.register(fastifyStatic, {
+    root: __dirname
+})
+
+fastify.register(fastifySensible)
+
+fastify.get("/", (request, reply) => {
+	reply.sendFile("index.html");
 });
 
-announcementsApi(app);
-formApi(app);
-
-const map = new Map();
-
-const updateMap = () => map.set("data", statusApi());
-
-updateMap();
-
-setInterval(updateMap, 30000);
-
-app.get("/api/v1/status", async (req, res) => {
-	res.json(await map.get("data"));
+fastify.get("/global.css", (request, reply) => {
+	reply.sendFile("global.css");
 });
 
-app.listen(port, () => {
+announcementsApi(fastify);
+formApi(fastify);
+statusApi(fastify);
+
+fastify.listen({ port: config.port }, (err, address) => {
+    if (err) {
+      fastify.log.error(err)
+      process.exit(1)
+    }
     validateConfig();
-	console.log(`[SegfaultAPI] listening on port ${port}`);
-});
+	console.log(`[SegfaultAPI] listening on ${address}`)
+  })

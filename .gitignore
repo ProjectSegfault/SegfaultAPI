@@ -1,4 +1,4 @@
 node_modules
-dist
+public/index.js
 config.json
 data/announcements.json

@@ -1,69 +1,69 @@
 import fs from "fs";
 import config from "../../config.json";
 
-const announcementsApi = (app) => {
+const announcementsApi = (fastify) => {
 	if (config.state.announcements === false) {
 		console.log("[SegfaultAPI] The announcements api is disabled.");
-		app.get("/tools/announcements", async (req, res) => {
-			res.send("The announcements api is disabled.");
+		fastify.get("/tools/announcements", async (request, reply) => {
+			reply.send("The announcements api is disabled.");
 		});
-		app.get("/api/v1/state/announcements", async (req, res) => {
-			res.json({ enabled: false });
+		fastify.get("/api/v1/state/announcements", async (request, reply) => {
+			reply.send({ enabled: false });
 		});
 	} else {
-		app.get("/tools/announcements", (req, res) => {
-			res.sendFile("./public/tools/announcements.html", { root: "./" });
+		fastify.get("/tools/announcements", (request, reply) => {
+			reply.sendFile("tools/announcements.html");
 		});
-		app.get("/api/v1/state/announcements", async (req, res) => {
-			res.json({ enabled: true });
+		fastify.get("/api/v1/state/announcements", async (request, reply) => {
+			reply.send({ enabled: true });
 		});
 
-		app.get("/api/v1/announcements", (req, res) => {
-			getAnnouncements(req, res, app);
+		fastify.get("/api/v1/announcements", (request, reply) => {
+			getAnnouncements(request, reply);
 		});
-		app.post("/api/v1/announcements/post", (req, res, config) => {
-			handleAnnouncements(req, res);
+		fastify.post("/api/v1/announcements/post", (request, reply) => {
+			handleAnnouncements(request, reply);
 		});
-		app.post("/api/v1/announcements/delete", (req, res) => {
-			handleAnnouncementDeleteRequest(req, res);
+		fastify.post("/api/v1/announcements/delete", (request, reply) => {
+			handleAnnouncementDeleteRequest(request, reply);
 		});
 	}
 };
 
-const getAnnouncements = async (req, res, app) => {
+const getAnnouncements = async (request, reply) => {
 	const file = fs.readFileSync("./data/announcements.json", "utf8");
 	if (file.length === 0) {
-		res.status(404).send("There are no announcements.");
+		reply.httpErrors.notFound("There are no announcements.");
 		return;
 	} else {
-		res.json(JSON.parse(file));
+		reply.send(JSON.parse(file));
 	}
 };
 
-const handleAnnouncements = async (req, res) => {
-	if (req.body.token !== config.token) {
-		res.status(403).send(
+const handleAnnouncements = async (request, reply) => {
+	if (request.body.token !== config.token) {
+		reply.httpErrors.unauthorized(
 			"You need to provide the authorization token given to you by your system administrator in order to post an announcement."
 		);
 		return;
 	} else {
-		if (req.body.title === "" || req.body.severity === "") {
-			res.status(400).send(
+		if (request.body.title === "" || request.body.severity === "") {
+			reply.httpErrors.badRequest(
 				"Your request is not proper. Please add a title and severity."
 			);
 			return;
 		} else {
-			res.status(200).send("Your announcement has been posted.");
+			reply.status(200).send("Your announcement has been posted.");
 			const now = Math.floor(Date.now() / 1000);
 			const data = {
-				title: req.body.title,
-				link: req.body.link,
-				severity: req.body.severity,
+				title: request.body.title,
+				link: request.body.link,
+				severity: request.body.severity,
 				created: now
 			};
 
 			const stringData = JSON.stringify(data);
-			fs.appendFile("./data/announcements.json", stringData, (err) => {
+			fs.writeFile("./data/announcements.json", stringData, (err) => {
 				if (err) {
 					console.error(err);
 				}
@@ -73,14 +73,14 @@ const handleAnnouncements = async (req, res) => {
 	}
 };
 
-const handleAnnouncementDeleteRequest = async (req, res) => {
-	if (req.body.token !== config.token) {
-		res.status(403).send(
+const handleAnnouncementDeleteRequest = async (request, reply) => {
+	if (request.body.token !== config.token) {
+		reply.httpErrors.unauthorized(
 			"You need to provide the authorization token given to you by your system administrator in order to delete an announcement."
 		);
 		return;
 	} else {
-		res.status(200).send("Your announcement has been deleted.");
+		reply.status(200).send("Your announcement has been deleted.");
 		fs.writeFile("./data/announcements.json", "", (err) => {
 			if (err) {
 				console.error(err);

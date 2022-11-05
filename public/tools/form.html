@@ -11,22 +11,7 @@
 			content="width=device-width, initial-scale=1.0"
 		/>
 		<title>SegfaultAPI form implementation example</title>
-		<style>
-			body {
-				background-color: #252525;
-				color: #fff;
-				font-family: "JetBrains Mono", "JetBrainsMono Nerd Font",
-					monospace;
-			}
-
-			a {
-				color: #00d4aa;
-			}
-
-			a:hover {
-				color: #4beacb;
-			}
-		</style>
+        <link rel="stylesheet" href="../global.css">
 		<script
 			src="https://js.hcaptcha.com/1/api.js"
 			async
@@ -35,9 +20,11 @@
 	</head>
 
 	<body>
+        <h1><a href="/">Back</a></h1>
 		<form
 			action="/api/v1/form"
 			method="POST"
+            class="col"
 		>
 			<div class="meta">
 				<input

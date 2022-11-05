@@ -1,30 +1,48 @@
-const statusApi = async () => {
-	const updated = Math.floor(Date.now() / 1000);
-	const invidious = await fetch("https://inv.odyssey346.dev/api/v1/stats");
-	const ferrit = await fetch("https://fr.odyssey346.dev/");
-	const quetre = await fetch("https://qtr.odyssey346.dev/");
-	const breezewiki = await fetch("https://bw.odyssey346.dev/");
-	const rimgo = await fetch("https://rim.odyssey346.dev/");
-	const proxitok = await fetch("https://proxitok.odyssey346.dev/");
-	const nitter = await fetch("https://ntr.odyssey346.dev/");
-	const memestream = await fetch("https://ms.odyssey346.dev/");
-	const services = await fetch("https://services.odyssey346.dev/");
+const statusApi = async (fastify) => {
+    const map = new Map();
+
+    const updateMap = () => map.set("data", fetchData());
+
+    updateMap();
+
+    setInterval(updateMap, 30000);
+
+    fastify.get("/api/v1/status", async (request, reply) => {
+        reply.send(await map.get("data"));
+    });
+};
+
+const fetchData = async () => {
+    const updated = Math.floor(Date.now() / 1000);
+	const invidious = await fetch("https://invidious.projectsegfau.lt/");
+	const librarian = await fetch("https://lbry.projectsegfau.lt/");
+	const libreddit = await fetch("https://libreddit.projectsegfau.lt/");
+	const nitter = await fetch("https://nitter.projectsegfau.lt/");
+	const element = await fetch("https://chat.projectsegfau.lt/");
+	const piped = await fetch("https://piped.projectsegfau.lt/");
+	const searxng = await fetch("https://search.projectsegfau.lt/search");
+	const gitea = await fetch("https://git.projectsegfau.lt/");
+	const portainer = await fetch("https://portainer.projectsegfau.lt/");
+	const mailcow = await fetch("https://mail.projectsegfau.lt/");
+	const plausible = await fetch("https://analytics.projectsegfau.lt/projectsegfau.lt");
 
 	const status = [
 		{ name: "Invidious", status: invidious.status },
-		{ name: "ferrit", status: ferrit.status },
-		{ name: "quetre", status: quetre.status },
-		{ name: "breezewiki", status: breezewiki.status },
-		{ name: "rimgo", status: rimgo.status },
-		{ name: "proxitok", status: proxitok.status },
-		{ name: "nitter", status: nitter.status },
-		{ name: "memestream", status: memestream.status },
-		{ name: "services", status: services.status }
+		{ name: "Librarian", status: librarian.status },
+		{ name: "Libreddit", status: libreddit.status },
+		{ name: "Nitter", status: nitter.status },
+		{ name: "Element", status: element.status },
+		{ name: "Piped", status: piped.status },
+		{ name: "SearXNG", status: searxng.status },
+		{ name: "Gitea", status: gitea.status },
+		{ name: "Portainer", status: portainer.status },
+        { name: "mailcow", status: mailcow.status },
+		{ name: "Plausible analytics", status: plausible.status }
 	];
 	return {
 		status: status,
 		updated: updated
 	};
-};
+}
 
 export default statusApi;
