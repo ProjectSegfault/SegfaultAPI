@@ -2,9 +2,9 @@ version: "3.9"
 services:
   segfaultapi:
       container_name: segfaultapi
-      #image: realprojectsegfault/segfaultapi
+      image: realprojectsegfault/segfaultapi
       restart: always
-      build: .
+      #build: .
       ports:
         - "6893:6893"
       volumes:
