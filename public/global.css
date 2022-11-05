@@ -1,0 +1,11 @@
+body {
+    padding: 1rem;
+    background-color: #171717;
+    color: #dddddd;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+a {
+    color: #00d4aa;
+    text-decoration: underline;
+}

@@ -13,6 +13,10 @@ app.get("/", (req, res) => {
 	res.sendFile("./public/index.html", { root: "./" });
 });
 
+app.get("/global.css", (req, res) => {
+	res.sendFile("./public/global.css", { root: "./" });
+});
+
 announcementsApi(app);
 formApi(app);
 
@@ -30,5 +34,5 @@ app.get("/api/v1/status", async (req, res) => {
 
 app.listen(port, () => {
     validateConfig();
-	console.log(`[SegfaultAPI] listening on port ${port}`);
+	console.log(`[SegfaultAPI] listening on port http://localhost:${port}`);
 });

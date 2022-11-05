@@ -1,12 +1,13 @@
 {
-	"name": "SegfaultAPI",
+	"name": "segfaultapi",
 	"version": "1.0.0",
 	"description": "",
 	"scripts": {
 		"dev": "tsup --watch --onSuccess \"pnpm preview\"",
 		"preview": "node dist/index.js",
 		"build": "tsup",
-		"format": "prettier --write ."
+		"format": "prettier --write .",
+        "docker": "docker compose up"
 	},
 	"keywords": [],
 	"author": "",
