@@ -4,8 +4,14 @@ import statusApi from "./api/status";
 import announcementsApi from "./api/announcements";
 import formApi from "./api/form";
 import validateConfig from "./utils/validateConfig";
+import expressStatusMonitor from "express-status-monitor";
 
 const app = express();
+
+app.use(expressStatusMonitor({
+    title: "SegfaultAPI stats",
+    path: "/stats"
+}));
 
 app.use(express.urlencoded({ extended: true }));
 
