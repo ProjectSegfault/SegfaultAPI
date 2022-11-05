@@ -1,6 +1,6 @@
 import config from "../../config.json";
 import { verify } from "hcaptcha";
-import { Webhook } from "discord-webhook-node";
+import { Webhook, MessageBuilder } from "discord-webhook-node";
 
 const formApi = (app) => {
 	if (config.state.form === false) {
@@ -32,13 +32,18 @@ const handleForm = (req, res) => {
 		.then((data) => {
 			const hook = new Webhook(config.webhook_url);
 			if (data.success === true) {
+
+                const embed = new MessageBuilder()
+                .setAuthor(`${ipAddress}, ${req.body.email}, https://abuseipdb.com/check/${ipAddress}`)
+                .addField('Comment type', req.body.commentType, true)
+                .addField('Message', req.body.message)
+                .setTimestamp();
+                
 				res.send(
 					"Thanks for your message, and thanks for doing the captcha!\nPlease ignore how different this page looks to the page you were on earlier. I'll figure it out eventually!"
 				);
 
-				hook.send(
-					`IP: ${ipAddress}, https://abuseipdb.com/check/${ipAddress}\nFrom ${req.body.email} with feedback type ${req.body.commentType}\n**${req.body.message}**`
-				);
+				hook.send(embed);
 			} else {
 				res.send(
 					"Seems like captcha failed, you didn't complete the captcha or you are a bot. Please try again.\nPlease note that your IP has been logged in our systems for manual review to check if you're an abusive user. If you're seen as abusive, you will be blacklisted.\nYour message has not been sent."
