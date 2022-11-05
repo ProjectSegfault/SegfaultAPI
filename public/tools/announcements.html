@@ -11,119 +11,18 @@
 			content="width=device-width, initial-scale=1.0"
 		/>
 		<title>SegfaultAPI announcement command centre</title>
-		<style>
-			.container {
-				width: 100%;
-				max-width: 400px;
-				margin: 0 auto;
-				position: relative;
-			}
-
-			#contact input[type="token"],
-			#contact input[type="link"],
-			#contact textarea,
-			#contact select,
-			#contact button[type="submit"] {
-				font: 500 15px/16px "Roboto", sans-serif;
-			}
-
-			.container h1 {
-				text-align: center;
-				margin: 0;
-				padding: 0;
-				font-size: 2rem;
-			}
-
-			#contact textarea {
-				text-align: center;
-				border-radius: 5px;
-				margin-top: 10px;
-				width: 100%;
-				border: none;
-				color: #fff;
-				background: #3b3b3b;
-				margin: 0 0 5px;
-				padding: 10px;
-				height: 100px;
-				max-width: 100%;
-				resize: none;
-			}
-
-			#contact input,
-			select {
-				text-align: center;
-				border-radius: 5px;
-				color: #fff;
-				width: 100%;
-				border: none;
-				background: #3b3b3b;
-				margin: 0 0 5px;
-				padding: 10px;
-				max-width: 100%;
-			}
-
-			#contact select {
-				width: 105%;
-				max-width: 105%;
-			}
-
-			#contact button[type="submit"] {
-				cursor: pointer;
-				width: 105%;
-				border: none;
-				background: #00d4aa;
-				color: #252525;
-				margin: 0 0 5px;
-				padding: 10px;
-				font-size: 15px;
-				border-radius: 5px;
-			}
-
-			#contact button[type="submit"]:hover {
-				background: #00a484;
-				-webkit-transition: background 0.3s ease-in-out;
-				-moz-transition: background 0.3s ease-in-out;
-				transition: background-color 0.3s ease-in-out;
-			}
-
-			#contact button[type="submit"]:active {
-				box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.5);
-			}
-
-			#contact button[type="delete"] {
-				cursor: pointer;
-				width: 105%;
-				border: none;
-				background: #d10006;
-				color: #fff;
-				margin: 0 0 5px;
-				padding: 10px;
-				font-size: 15px;
-				border-radius: 5px;
-			}
-
-			#contact button[type="delete"]:hover {
-				background: #990005;
-				-webkit-transition: background 0.3s ease-in-out;
-				-moz-transition: background 0.3s ease-in-out;
-				transition: background-color 0.3s ease-in-out;
-			}
-
-			#contact button[type="delete"]:active {
-				box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.5);
-			}
-		</style>
         <link rel="stylesheet" href="../global.css">
 	</head>
 
 	<body>
-		<div class="container">
+        <h1><a href="/">Back</a></h1>
+		<div class="col">
 			<h1>Post Announcement</h1>
 			<form
-				id="contact"
 				action="/api/v1/announcements/post"
 				method="POST"
 				target="_blank"
+                class="col"
 			>
 				<div class="meta">
 					<input
@@ -169,10 +68,10 @@
 			</form>
 			<h1 style="margin-top: 20px">Delete Announcement</h1>
 			<form
-				id="contact"
 				action="/api/v1/announcements/delete"
 				method="POST"
 				target="_blank"
+                class="col"
 			>
 				<div class="meta">
 					<input
