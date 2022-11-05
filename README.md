@@ -8,9 +8,9 @@ It powers our website's contact form, announcements and instances page.
 
 ### Docker
 ```
-docker run -d --restart=always -p 6893:6893 --name segfaultapi -v "$(pwd)"/data:/segfaultapi/data projectsegfault/segfaultapi:latest
+docker-compose --env-file .my-env  up -d
 ```
-You need to rename the ``config.example.json`` to ```config.json`` and customize the values in the config file.
+You need to make a .env file with the values in .env.example in the current directory for the container to use.
 
 We recommend using Docker as it provides better security (we suck in security, so that's why) and we are constantly updating SegfaultAPI. Docker makes it easy to update the program.
 

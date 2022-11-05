@@ -1,15 +1,13 @@
-import config from "../../config.json";
-
 const validateConfig = () => {
-    config.port === 0 ? console.error(`[SegfaultAPI] ❌ You need to set the port you'd like to use in the config file.`) : console.log(`[SegfaultAPI] ✅ Port is set to ${config.port}.`);
+    process.env.PORT === "0" ? console.error(`[SegfaultAPI] ❌ You need to set the port you'd like to use in the config file.`) : console.log(`[SegfaultAPI] ✅ Port is set to ${process.env.PORT}.`);
 
-    config.token === "YOUR_ANNOUNCEMENTS_TOKEN" || "" ? console.error(`[SegfaultAPI] ❌ You need to set the authentication token you'd like to use in the config file.`) : console.log(`[SegfaultAPI] ✅ Token is set to ${config.token}.`);
+    process.env.TOKEN === "YOUR_ANNOUNCEMENTS_TOKEN" || "" ? console.error(`[SegfaultAPI] ❌ You need to set the authentication token you'd like to use in the config file.`) : console.log(`[SegfaultAPI] ✅ Token is set to ${process.env.TOKEN}.`);
 
-    config.hcaptcha_secret === "YOUR_HCAPTCHA_SECRET" || "" ? console.error(`[SegfaultAPI] ❌ You need to set the hCaptcha secret you'd like to use in the config file.`) : console.log(`[SegfaultAPI] ✅ hCaptcha secret is set to ${config.hcaptcha_secret}.`);
+    process.env.HCAPTCHA_SECRET === "YOUR_HCAPTCHA_SECRET" || "" ? console.error(`[SegfaultAPI] ❌ You need to set the hCaptcha secret you'd like to use in the config file.`) : console.log(`[SegfaultAPI] ✅ hCaptcha secret is set to ${process.env.HCAPTCHA_SECRET}.`);
 
-    config.hcaptcha_sitekey === "YOUR_HCAPTCHA_SITEKEY" || "" ? console.error(`[SegfaultAPI] ❌ You need to set the hCaptcha site key you'd like to use in the config file.`) : console.log(`[SegfaultAPI] ✅ hCaptcha site key is set to ${config.hcaptcha_sitekey}.`);
+    process.env.HCAPTCHA_SITEKEY === "YOUR_HCAPTCHA_SITEKEY" || "" ? console.error(`[SegfaultAPI] ❌ You need to set the hCaptcha site key you'd like to use in the config file.`) : console.log(`[SegfaultAPI] ✅ hCaptcha site key is set to ${process.env.HCAPTCHA_SITEKEY}.`);
 
-    config.webhook_url === "YOUR_WEBHOOK_URL" || "" ? console.error(`[SegfaultAPI] ❌ You need to set the Discord webhook url you'd like to use in the config file.`) : console.log(`[SegfaultAPI] ✅ Discord webhook url is set to ${config.webhook_url}.`);
+    process.env.WEBHOOK_URL === "YOUR_WEBHOOK_URL" || "" ? console.error(`[SegfaultAPI] ❌ You need to set the Discord webhook url you'd like to use in the config file.`) : console.log(`[SegfaultAPI] ✅ Discord webhook url is set to ${process.env.WEBHOOK_URL}.`);
 }
 
 export default validateConfig;

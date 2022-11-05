@@ -1,4 +1,4 @@
 node_modules
 public/index.js
-config.json
 data/announcements.json
+.env

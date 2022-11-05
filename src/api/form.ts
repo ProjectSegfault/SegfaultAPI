@@ -1,9 +1,8 @@
-import config from "../../config.json";
 import { verify } from "hcaptcha";
 import { Webhook, MessageBuilder } from "discord-webhook-node";
 
 const formApi = (fastify) => {
-	if (config.state.form === false) {
+	if (process.env.FORM_STATE === "0") {
 		console.log("[SegfaultAPI] The form api is disabled.");
 		fastify.get("/tools/form", async (request, reply) => {
 			reply.send("The form api is disabled.");
@@ -28,9 +27,9 @@ const formApi = (fastify) => {
 const handleForm = (request, reply) => {
 	const ipAddress = request.socket.remoteAddress;
 
-	verify(config.hcaptcha_secret, config.hcaptcha_sitekey)
+	verify(process.env.HCAPTCHA_SECRET, process.env.HCAPTCHA_SITEKEY)
 		.then((data) => {
-			const hook = new Webhook(config.webhook_url);
+			const hook = new Webhook(process.env.WEBHOOK_URL);
 			if (data.success === true) {
 
                 const embed = new MessageBuilder()

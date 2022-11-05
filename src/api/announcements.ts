@@ -1,8 +1,7 @@
 import fs from "fs";
-import config from "../../config.json";
 
 const announcementsApi = (fastify) => {
-	if (config.state.announcements === false) {
+	if (process.env.ANNOUNCEMENTS_STATE === "0") {
 		console.log("[SegfaultAPI] The announcements api is disabled.");
 		fastify.get("/tools/announcements", async (request, reply) => {
 			reply.send("The announcements api is disabled.");
@@ -41,7 +40,7 @@ const getAnnouncements = async (request, reply) => {
 };
 
 const handleAnnouncements = async (request, reply) => {
-	if (request.body.token !== config.token) {
+	if (request.body.token !== process.env.TOKEN) {
 		reply.httpErrors.unauthorized(
 			"You need to provide the authorization token given to you by your system administrator in order to post an announcement."
 		);
@@ -74,7 +73,7 @@ const handleAnnouncements = async (request, reply) => {
 };
 
 const handleAnnouncementDeleteRequest = async (request, reply) => {
-	if (request.body.token !== config.token) {
+	if (request.body.token !== process.env.TOKEN) {
 		reply.httpErrors.unauthorized(
 			"You need to provide the authorization token given to you by your system administrator in order to delete an announcement."
 		);

@@ -2,13 +2,15 @@ import Fastify from 'fastify'
 import fastifyStatic from '@fastify/static';
 import formBodyPlugin from '@fastify/formbody';
 import fastifySensible from '@fastify/sensible';
-import config from "../config.json";
 import statusApi from "./api/status";
 import announcementsApi from "./api/announcements";
 import formApi from "./api/form";
 import validateConfig from "./utils/validateConfig";
 import { dirname } from 'path';
 import { fileURLToPath } from 'url';
+import * as dotenv from "dotenv";
+
+dotenv.config()
 
 const __filename = fileURLToPath(import.meta.url);
 
@@ -38,7 +40,7 @@ announcementsApi(fastify);
 formApi(fastify);
 statusApi(fastify);
 
-fastify.listen({ port: config.port }, (err, address) => {
+fastify.listen({ port: process.env.PORT }, (err, address) => {
     if (err) {
       fastify.log.error(err)
       process.exit(1)
