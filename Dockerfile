@@ -12,4 +12,4 @@ RUN npm run build
 
 EXPOSE 6893
 
-CMD [ "node", "dist/index.js" ]
+CMD [ "node", "public/index.js" ]

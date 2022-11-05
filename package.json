@@ -4,7 +4,7 @@
 	"description": "Web utilities and APIs for Project Segfault, written in TypeScript with express.",
 	"scripts": {
 		"dev": "tsup --watch --onSuccess \"pnpm preview\"",
-		"preview": "node dist/index.js",
+		"preview": "node public/index.js",
 		"build": "tsup",
 		"format": "prettier --write .",
 		"docker": "docker compose up"
@@ -12,9 +12,11 @@
 	"author": "Project Segfault team",
 	"license": "MIT",
 	"dependencies": {
+		"@fastify/formbody": "^7.3.0",
+		"@fastify/sensible": "^5.1.1",
+		"@fastify/static": "^6.5.0",
 		"discord-webhook-node": "^1.1.8",
-		"express": "^4.18.2",
-		"express-status-monitor": "^1.3.4",
+		"fastify": "^4.9.2",
 		"hcaptcha": "^0.1.1"
 	},
 	"type": "module",

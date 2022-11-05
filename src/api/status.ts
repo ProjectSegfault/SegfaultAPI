@@ -1,4 +1,4 @@
-const statusApi = async (app) => {
+const statusApi = async (fastify) => {
     const map = new Map();
 
     const updateMap = () => map.set("data", fetchData());
@@ -7,8 +7,8 @@ const statusApi = async (app) => {
 
     setInterval(updateMap, 30000);
 
-    app.get("/api/v1/status", async (req, res) => {
-        res.json(await map.get("data"));
+    fastify.get("/api/v1/status", async (request, reply) => {
+        reply.send(await map.get("data"));
     });
 };
 

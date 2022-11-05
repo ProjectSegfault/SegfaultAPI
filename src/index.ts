@@ -1,33 +1,48 @@
-import express from "express";
+import Fastify from 'fastify'
+import fastifyStatic from '@fastify/static';
+import formBodyPlugin from '@fastify/formbody';
+import fastifySensible from '@fastify/sensible';
 import config from "../config.json";
 import statusApi from "./api/status";
 import announcementsApi from "./api/announcements";
 import formApi from "./api/form";
 import validateConfig from "./utils/validateConfig";
-import expressStatusMonitor from "express-status-monitor";
+import { dirname } from 'path';
+import { fileURLToPath } from 'url';
 
-const app = express();
+const __filename = fileURLToPath(import.meta.url);
 
-app.use(expressStatusMonitor({
-    title: "SegfaultAPI stats",
-    path: "/stats"
-}));
+const __dirname = dirname(__filename);
 
-app.use(express.urlencoded({ extended: true }));
+const fastify = Fastify({
+    logger: true
+})
 
-app.get("/", (req, res) => {
-	res.sendFile("./public/index.html", { root: "./" });
+fastify.register(formBodyPlugin)
+
+fastify.register(fastifyStatic, {
+    root: __dirname
+})
+
+fastify.register(fastifySensible)
+
+fastify.get("/", (request, reply) => {
+	reply.sendFile("index.html");
 });
 
-app.get("/global.css", (req, res) => {
-	res.sendFile("./public/global.css", { root: "./" });
+fastify.get("/global.css", (request, reply) => {
+	reply.sendFile("global.css");
 });
 
-announcementsApi(app);
-formApi(app);
-statusApi(app);
+announcementsApi(fastify);
+formApi(fastify);
+statusApi(fastify);
 
-app.listen(config.port, () => {
+fastify.listen({ port: config.port }, (err, address) => {
+    if (err) {
+      fastify.log.error(err)
+      process.exit(1)
+    }
     validateConfig();
-	console.log(`[SegfaultAPI] listening on port http://localhost:${config.port}`);
-});
+	console.log(`[SegfaultAPI] listening on ${address}`)
+  })
