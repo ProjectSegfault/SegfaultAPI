@@ -45,7 +45,7 @@ const handleForm = (req, res) => {
 				);
 
 				hook.send(
-					`IP: ${ipAddress}, https://abuseipdb.com/check/${ipAddress}\nFrom failed to complete the captcha.`
+					`IP: ${ipAddress}, https://abuseipdb.com/check/${ipAddress}\nfailed to complete the captcha.`
 				);
 			}
 		})
