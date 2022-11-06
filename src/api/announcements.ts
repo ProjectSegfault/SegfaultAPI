@@ -30,24 +30,28 @@ const announcementsApi = (fastify) => {
 };
 
 const getAnnouncements = async (request, reply) => {
-	const file = fs.readFileSync("./data/announcements.json", "utf8");
-	if (file.length === 0) {
-		reply.httpErrors.notFound("There are no announcements.");
-		return;
-	} else {
-		reply.send(JSON.parse(file));
-	}
+    if (fs.existsSync("./data/announcements.json")) {
+        if (fs.readFileSync("./data/announcements.json", "utf8").length === 0) {
+            reply.notFound("There are no announcements.");
+		    return;
+        } else {
+            reply.send(JSON.parse(fs.readFileSync("./data/announcements.json", "utf8")));
+        }
+    } else {
+        reply.notFound("There are no announcements.");
+        return;
+    }
 };
 
 const handleAnnouncements = async (request, reply) => {
 	if (request.body.token !== process.env.TOKEN) {
-		reply.httpErrors.unauthorized(
+		reply.unauthorized(
 			"You need to provide the authorization token given to you by your system administrator in order to post an announcement."
 		);
 		return;
 	} else {
 		if (request.body.title === "" || request.body.severity === "") {
-			reply.httpErrors.badRequest(
+			reply.badRequest(
 				"Your request is not proper. Please add a title and severity."
 			);
 			return;
@@ -74,7 +78,7 @@ const handleAnnouncements = async (request, reply) => {
 
 const handleAnnouncementDeleteRequest = async (request, reply) => {
 	if (request.body.token !== process.env.TOKEN) {
-		reply.httpErrors.unauthorized(
+		reply.unauthorized(
 			"You need to provide the authorization token given to you by your system administrator in order to delete an announcement."
 		);
 		return;

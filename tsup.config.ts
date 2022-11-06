@@ -4,5 +4,5 @@ export default defineConfig({
 	entry: ["src/index.ts"],
 	minify: true,
 	format: "esm",
-    outDir: "public"
+    clean: true
 });

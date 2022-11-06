@@ -3,9 +3,9 @@
 	"version": "1.0.0",
 	"description": "Web utilities and APIs for Project Segfault, written in TypeScript with express.",
 	"scripts": {
-		"dev": "tsup --watch --onSuccess \"pnpm preview\"",
-		"preview": "node public/index.js",
-		"build": "tsup",
+		"dev": "tsup --watch --onSuccess \"cp -r public/**/* dist && pnpm preview\"",
+		"preview": "node dist/index.js",
+		"build": "rm -rf dist && tsup && cp -r public/**/* dist",
 		"format": "prettier --write .",
 		"docker": "docker compose up"
 	},
