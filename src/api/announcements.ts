@@ -30,17 +30,19 @@ const announcementsApi = (fastify) => {
 };
 
 const getAnnouncements = async (request, reply) => {
-    if (fs.existsSync("./data/announcements.json")) {
-        if (fs.readFileSync("./data/announcements.json", "utf8").length === 0) {
-            reply.notFound("There are no announcements.");
-		    return;
-        } else {
-            reply.send(JSON.parse(fs.readFileSync("./data/announcements.json", "utf8")));
-        }
-    } else {
-        reply.notFound("There are no announcements.");
-        return;
-    }
+	if (fs.existsSync("./data/announcements.json")) {
+		if (fs.readFileSync("./data/announcements.json", "utf8").length === 0) {
+			reply.notFound("There are no announcements.");
+			return;
+		} else {
+			reply.send(
+				JSON.parse(fs.readFileSync("./data/announcements.json", "utf8"))
+			);
+		}
+	} else {
+		reply.notFound("There are no announcements.");
+		return;
+	}
 };
 
 const handleAnnouncements = async (request, reply) => {

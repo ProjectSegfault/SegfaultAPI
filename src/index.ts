@@ -1,32 +1,33 @@
-import Fastify from 'fastify'
-import fastifyStatic from '@fastify/static';
-import formBodyPlugin from '@fastify/formbody';
-import fastifySensible from '@fastify/sensible';
+import * as dotenv from "dotenv";
+
+dotenv.config();
+
+import Fastify from "fastify";
+import fastifyStatic from "@fastify/static";
+import formBodyPlugin from "@fastify/formbody";
+import fastifySensible from "@fastify/sensible";
 import statusApi from "./api/status";
 import announcementsApi from "./api/announcements";
 import formApi from "./api/form";
 import validateConfig from "./utils/validateConfig";
-import { dirname } from 'path';
-import { fileURLToPath } from 'url';
-import * as dotenv from "dotenv";
-
-dotenv.config()
+import { dirname } from "path";
+import { fileURLToPath } from "url";
 
 const __filename = fileURLToPath(import.meta.url);
 
 const __dirname = dirname(__filename);
 
 const fastify = Fastify({
-    logger: true
-})
+	logger: true
+});
 
-fastify.register(formBodyPlugin)
+fastify.register(formBodyPlugin);
 
 fastify.register(fastifyStatic, {
-    root: __dirname
-})
+	root: __dirname
+});
 
-fastify.register(fastifySensible)
+fastify.register(fastifySensible);
 
 fastify.get("/", (request, reply) => {
 	reply.sendFile("index.html");
@@ -41,10 +42,10 @@ formApi(fastify);
 statusApi(fastify);
 
 fastify.listen({ port: Number(process.env.PORT) }, (err, address) => {
-    if (err) {
-      fastify.log.error(err)
-      process.exit(1)
-    }
-    validateConfig();
-	console.log(`[SegfaultAPI] listening on ${address}`)
-  })
+	if (err) {
+		fastify.log.error(err);
+		process.exit(1);
+	}
+	validateConfig();
+	console.log(`[SegfaultAPI] listening on ${address}`);
+});

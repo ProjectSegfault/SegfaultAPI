@@ -1,19 +1,19 @@
 body {
-    padding: 1rem;
-    background-color: #171717;
-    color: #dddddd;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    color-scheme: dark;
+	padding: 1rem;
+	background-color: #171717;
+	color: #dddddd;
+	font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+	color-scheme: dark;
 }
 
 a {
-    color: #00d4aa;
-    text-decoration: underline;
+	color: #00d4aa;
+	text-decoration: underline;
 }
 
 .col {
-    display: flex;
-    flex-direction: column;
-    gap: .5rem;
-    width: fit-content;
+	display: flex;
+	flex-direction: column;
+	gap: 0.5rem;
+	width: fit-content;
 }

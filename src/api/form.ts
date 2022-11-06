@@ -31,13 +31,14 @@ const handleForm = (request, reply) => {
 		.then((data) => {
 			const hook = new Webhook(process.env.WEBHOOK_URL);
 			if (data.success === true) {
+				const embed = new MessageBuilder()
+					.setAuthor(
+						`${ipAddress}, ${request.body.email}, https://abuseipdb.com/check/${ipAddress}`
+					)
+					.addField("Comment type", request.body.commentType, true)
+					.addField("Message", request.body.message)
+					.setTimestamp();
 
-                const embed = new MessageBuilder()
-                .setAuthor(`${ipAddress}, ${request.body.email}, https://abuseipdb.com/check/${ipAddress}`)
-                .addField('Comment type', request.body.commentType, true)
-                .addField('Message', request.body.message)
-                .setTimestamp();
-                
 				reply.send(
 					"Thanks for your message, and thanks for doing the captcha!\nPlease ignore how different this page looks to the page you were on earlier. I'll figure it out eventually!"
 				);

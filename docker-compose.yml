@@ -1,11 +1,11 @@
 version: "3.9"
 services:
-  segfaultapi:
-      container_name: segfaultapi
-      image: realprojectsegfault/segfaultapi
-      restart: always
-      #build: .
-      ports:
-        - "6893:6893"
-      volumes:
-        - "./data:/usr/src/app/data"
+    segfaultapi:
+        container_name: segfaultapi
+        image: realprojectsegfault/segfaultapi
+        restart: always
+        #build: .
+        ports:
+            - "6893:6893"
+        volumes:
+            - "./data:/usr/src/app/data"
