@@ -1,5 +1,5 @@
 # SegfaultAPI
-Web utilities and APIs for Project Segfault, written in TypeScript with express.
+Web utilities and APIs for Project Segfault, written in TypeScript with Fastify.
 
 ## What does it do?
 It powers our website's contact form, announcements and instances page.
