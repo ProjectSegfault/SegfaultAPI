@@ -41,7 +41,7 @@ announcementsApi(fastify);
 formApi(fastify);
 statusApi(fastify);
 
-fastify.listen({ port: Number(process.env.PORT) }, (err, address) => {
+fastify.listen({ port: Number(process.env.PORT), host: "0.0.0.0" }, (err, address) => {
 	if (err) {
 		fastify.log.error(err);
 		process.exit(1);
