@@ -8,8 +8,6 @@ RUN npm i
 
 COPY . .
 
-RUN npm run build
-
 EXPOSE 6893
 
-CMD [ "node", "dist/index.js" ]
+CMD [ "npx", "tsx", "./src/index.ts" ]

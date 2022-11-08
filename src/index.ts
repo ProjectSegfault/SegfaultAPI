@@ -10,12 +10,10 @@ import statusApi from "./api/status";
 import announcementsApi from "./api/announcements";
 import formApi from "./api/form";
 import validateConfig from "./utils/validateConfig";
-import { dirname } from "path";
+import { dirname, join } from "path";
 import { fileURLToPath } from "url";
 
-const __filename = fileURLToPath(import.meta.url);
-
-const __dirname = dirname(__filename);
+const __dirname = dirname(fileURLToPath(import.meta.url));
 
 const fastify = Fastify({
 	logger: true
@@ -24,7 +22,7 @@ const fastify = Fastify({
 fastify.register(formBodyPlugin);
 
 fastify.register(fastifyStatic, {
-	root: __dirname
+	root: join(__dirname, "static"),
 });
 
 fastify.register(fastifySensible);

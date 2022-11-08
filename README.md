@@ -26,6 +26,5 @@ If you're using Portainer, you should know how to add SegfaultAPI.
 git clone https://github.com/ProjectSegfault/SegfaultAPI
 cd SegfaultAPI/
 pnpm i # or pnpm i --production if you don't plan on developing
-pnpm build
-pnpm preview
+pnpm preview # or pnpm dev if you plan on developing
 ```

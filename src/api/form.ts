@@ -12,7 +12,7 @@ const formApi = (fastify) => {
 		});
 	} else {
 		fastify.get("/tools/form", (request, reply) => {
-			reply.sendFile("./public/tools/form.html", { root: "./" });
+			reply.sendFile("tools/form.html");
 		});
 		fastify.get("/api/v1/state/form", async (request, reply) => {
 			reply.send({ enabled: true });
