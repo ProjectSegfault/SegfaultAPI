@@ -52,9 +52,9 @@ const handleAnnouncements = async (request, reply) => {
 		);
 		return;
 	} else {
-		if (request.body.title === "" || request.body.severity === "") {
+		if (request.body.title === "" || request.body.severity === "" || request.body.author === "") {
 			reply.badRequest(
-				"Your request is not proper. Please add a title and severity."
+				"Your request is not proper. Please add a title, severity and author."
 			);
 			return;
 		} else {
@@ -64,6 +64,7 @@ const handleAnnouncements = async (request, reply) => {
 				title: request.body.title,
 				link: request.body.link,
 				severity: request.body.severity,
+				author: request.body.author,
 				created: now
 			};
 
