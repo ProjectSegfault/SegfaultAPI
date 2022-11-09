@@ -32,6 +32,7 @@ const announcementsApi = (fastify) => {
 const getAnnouncements = async (request, reply) => {
 	if (fs.existsSync("./data/announcements.json")) {
 		if (fs.readFileSync("./data/announcements.json", "utf8").length === 0) {
+            reply.send({ hasAnnouncement: false });
 			return;
 		} else {
 			reply.send(
@@ -39,6 +40,7 @@ const getAnnouncements = async (request, reply) => {
 			);
 		}
 	} else {
+        reply.send({ hasAnnouncement: false });
 		return;
 	}
 };
@@ -63,7 +65,8 @@ const handleAnnouncements = async (request, reply) => {
 				link: request.body.link,
 				severity: request.body.severity,
 				author: request.body.author,
-				created: now
+				created: now,
+                hasAnnouncement: true
 			};
 
 			const stringData = JSON.stringify(data);
