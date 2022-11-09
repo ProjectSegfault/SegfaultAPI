@@ -32,7 +32,6 @@ const announcementsApi = (fastify) => {
 const getAnnouncements = async (request, reply) => {
 	if (fs.existsSync("./data/announcements.json")) {
 		if (fs.readFileSync("./data/announcements.json", "utf8").length === 0) {
-			reply.send("There are no announcements.");
 			return;
 		} else {
 			reply.send(
@@ -40,7 +39,6 @@ const getAnnouncements = async (request, reply) => {
 			);
 		}
 	} else {
-		reply.send("There are no announcements.");
 		return;
 	}
 };
