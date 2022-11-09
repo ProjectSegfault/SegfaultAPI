@@ -6,6 +6,7 @@ import Fastify from "fastify";
 import fastifyStatic from "@fastify/static";
 import formBodyPlugin from "@fastify/formbody";
 import fastifySensible from "@fastify/sensible";
+import cors from "@fastify/cors";
 import statusApi from "./api/status";
 import announcementsApi from "./api/announcements";
 import formApi from "./api/form";
@@ -26,6 +27,10 @@ fastify.register(fastifyStatic, {
 });
 
 fastify.register(fastifySensible);
+
+fastify.register(cors, {
+    origin: "*"
+})
 
 fastify.get("/", (request, reply) => {
 	reply.sendFile("index.html");
