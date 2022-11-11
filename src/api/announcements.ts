@@ -32,7 +32,7 @@ const announcementsApi = (fastify) => {
 const getAnnouncements = async (request, reply) => {
 	if (fs.existsSync("./data/announcements.json")) {
 		if (fs.readFileSync("./data/announcements.json", "utf8").length === 0) {
-            reply.notFound("There are no announcements.");
+			reply.notFound("There are no announcements.");
 			return;
 		} else {
 			reply.send(
@@ -40,7 +40,7 @@ const getAnnouncements = async (request, reply) => {
 			);
 		}
 	} else {
-        reply.notFound("There are no announcements.");
+		reply.notFound("There are no announcements.");
 		return;
 	}
 };
@@ -52,7 +52,11 @@ const handleAnnouncements = async (request, reply) => {
 		);
 		return;
 	} else {
-		if (request.body.title === "" || request.body.severity === "" || request.body.author === "") {
+		if (
+			request.body.title === "" ||
+			request.body.severity === "" ||
+			request.body.author === ""
+		) {
 			reply.badRequest(
 				"Your request is not proper. Please add a title, severity and author."
 			);
@@ -66,7 +70,7 @@ const handleAnnouncements = async (request, reply) => {
 				severity: request.body.severity,
 				author: request.body.author,
 				created: now,
-                hasAnnouncement: true
+				hasAnnouncement: true
 			};
 
 			const stringData = JSON.stringify(data);

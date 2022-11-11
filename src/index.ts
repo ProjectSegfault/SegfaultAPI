@@ -23,14 +23,14 @@ const fastify = Fastify({
 fastify.register(formBodyPlugin);
 
 fastify.register(fastifyStatic, {
-	root: join(__dirname, "static"),
+	root: join(__dirname, "static")
 });
 
 fastify.register(fastifySensible);
 
 fastify.register(cors, {
-    origin: "*"
-})
+	origin: "*"
+});
 
 fastify.get("/", (request, reply) => {
 	reply.sendFile("index.html");
@@ -44,11 +44,14 @@ announcementsApi(fastify);
 formApi(fastify);
 statusApi(fastify);
 
-fastify.listen({ port: Number(process.env.PORT), host: "0.0.0.0" }, (err, address) => {
-	if (err) {
-		fastify.log.error(err);
-		process.exit(1);
+fastify.listen(
+	{ port: Number(process.env.PORT), host: "0.0.0.0" },
+	(err, address) => {
+		if (err) {
+			fastify.log.error(err);
+			process.exit(1);
+		}
+		validateConfig();
+		console.log(`[SegfaultAPI] listening on ${address}`);
 	}
-	validateConfig();
-	console.log(`[SegfaultAPI] listening on ${address}`);
-});
+);

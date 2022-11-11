@@ -28,106 +28,113 @@ const fetchData = async () => {
 		"https://analytics.projectsegfau.lt/projectsegfau.lt"
 	);
 
-	const status = {
-		"General": [
-            {
-                name: "Invidious",
-                description: "A frontend for YouTube.",
-                link: "https://invidious.projectsegfau.lt/",
-                project: "https://invidious.io/",
-                icon: "https://github.com/iv-org/invidious/raw/master/assets/invidious-colored-vector.svg",
-                status: invidious.status
-            },
-            {
-                name: "Librarian",
-                description: "A frontend for Odysee.",
-                link: "https://lbry.projectsegfau.lt/",
-                project: "https://codeberg.org/librarian/librarian",
-                icon: "https://codeberg.org/avatars/dd785d92b4d4df06d448db075cd29274",
-                status: librarian.status
-            },
-            {
-                name: "Libreddit",
-                description: "A frontend for Reddit.",
-                link: "https://libreddit.projectsegfau.lt/",
-                project: "https://github.com/spikecodes/libreddit",
-                icon: "https://github.com/spikecodes/libreddit/raw/master/static/logo.png",
-                status: libreddit.status
-            },
-            {
-                name: "Nitter",
-                description: "A frontend for Twitter.",
-                link: "https://nitter.projectsegfau.lt/",
-                project: "https://github.com/zedeus/nitter",
-                icon: "https://github.com/zedeus/nitter/raw/master/public/logo.png",
-                status: nitter.status
-            },
-            {
-                name: "Element",
-                description: "An open source and decentralized chat application.",
-                link: "https://chat.projectsegfau.lt/",
-                project: "https://element.io/",
-                icon: "https://element.io/images/logo-mark-primary.svg",
-                status: element.status
-            },
-            {
-                name: "Piped",
-                description: "Another frontend for YouTube.",
-                link: "https://piped.projectsegfau.lt/",
-                project: "https://github.com/TeamPiped/Piped",
-                icon: "https://github.com/TeamPiped/Piped/raw/master/public/img/icons/logo.svg",
-                status: piped.status
-            },
-            {
-                name: "SearXNG",
-                description: "A private meta-search engine.",
-                link: "https://search.projectsegfau.lt/search",
-                project: "https://searxng.org/",
-                icon: "https://docs.searxng.org/_static/searxng-wordmark.svg",
-                status: searxng.status
-            },
-            {
-                name: "Gitea",
-                description: "A web interface for Git, alternative to GitHub.",
-                link: "https://git.projectsegfau.lt/",
-                project: "https://gitea.io/",
-                icon: "https://gitea.io/images/gitea.png",
-                status: gitea.status
-            }
-        ],
-		"Internal": [
-            {
-                name: "Portainer",
-                description: "Portainer instance for our servers.",
-                link: "https://portainer.projectsegfau.lt/",
-                project: "https://www.portainer.io/",
-                icon: "https://avatars.githubusercontent.com/u/22225832",
-                status: portainer.status
-            },
-            {
-                name: "mailcow",
-                description: "Our mail server and webmail.",
-                link: "https://mail.projectsegfau.lt/",
-                project: "https://mailcow.email/",
-                icon: "https://mailcow.email/images/cow_mailcow.svg",
-                status: mailcow.status
-            },
-            {
-                name: "Plausible analytics",
-                description: "Analytics for our website.",
-                link: "https://analytics.projectsegfau.lt/projectsegfau.lt",
-                project: "https://plausible.io/",
-                icon: "https://avatars.githubusercontent.com/u/54802774",
-                status: plausible.status
-            }
-        ]
-    };
+	const status = [
+		{
+			name: "General",
+			data: [
+				{
+					name: "Invidious",
+					description: "A frontend for YouTube.",
+					link: "https://invidious.projectsegfau.lt/",
+					project: "https://invidious.io/",
+					icon: "https://github.com/iv-org/invidious/raw/master/assets/invidious-colored-vector.svg",
+					status: invidious.status
+				},
+				{
+					name: "Librarian",
+					description: "A frontend for Odysee.",
+					link: "https://lbry.projectsegfau.lt/",
+					project: "https://codeberg.org/librarian/librarian",
+					icon: "https://codeberg.org/avatars/dd785d92b4d4df06d448db075cd29274",
+					status: librarian.status
+				},
+				{
+					name: "Libreddit",
+					description: "A frontend for Reddit.",
+					link: "https://libreddit.projectsegfau.lt/",
+					project: "https://github.com/spikecodes/libreddit",
+					icon: "https://github.com/spikecodes/libreddit/raw/master/static/logo.png",
+					status: libreddit.status
+				},
+				{
+					name: "Nitter",
+					description: "A frontend for Twitter.",
+					link: "https://nitter.projectsegfau.lt/",
+					project: "https://github.com/zedeus/nitter",
+					icon: "https://github.com/zedeus/nitter/raw/master/public/logo.png",
+					status: nitter.status
+				},
+				{
+					name: "Element",
+					description:
+						"An open source and decentralized chat application.",
+					link: "https://chat.projectsegfau.lt/",
+					project: "https://element.io/",
+					icon: "https://element.io/images/logo-mark-primary.svg",
+					status: element.status
+				},
+				{
+					name: "Piped",
+					description: "Another frontend for YouTube.",
+					link: "https://piped.projectsegfau.lt/",
+					project: "https://github.com/TeamPiped/Piped",
+					icon: "https://github.com/TeamPiped/Piped/raw/master/public/img/icons/logo.svg",
+					status: piped.status
+				},
+				{
+					name: "SearXNG",
+					description: "A private meta-search engine.",
+					link: "https://search.projectsegfau.lt/search",
+					project: "https://searxng.org/",
+					icon: "https://docs.searxng.org/_static/searxng-wordmark.svg",
+					status: searxng.status
+				},
+				{
+					name: "Gitea",
+					description:
+						"A web interface for Git, alternative to GitHub.",
+					link: "https://git.projectsegfau.lt/",
+					project: "https://gitea.io/",
+					icon: "https://gitea.io/images/gitea.png",
+					status: gitea.status
+				}
+			]
+		},
+		{
+			name: "Internal",
+			data: [
+				{
+					name: "Portainer",
+					description: "Portainer instance for our servers.",
+					link: "https://portainer.projectsegfau.lt/",
+					project: "https://www.portainer.io/",
+					icon: "https://avatars.githubusercontent.com/u/22225832",
+					status: portainer.status
+				},
+				{
+					name: "mailcow",
+					description: "Our mail server and webmail.",
+					link: "https://mail.projectsegfau.lt/",
+					project: "https://mailcow.email/",
+					icon: "https://mailcow.email/images/cow_mailcow.svg",
+					status: mailcow.status
+				},
+				{
+					name: "Plausible analytics",
+					description: "Analytics for our website.",
+					link: "https://analytics.projectsegfau.lt/projectsegfau.lt",
+					project: "https://plausible.io/",
+					icon: "https://avatars.githubusercontent.com/u/54802774",
+					status: plausible.status
+				}
+			]
+		}
+	];
 
-    
 	return {
-        status: status,
-        updated: updated
-    }
+		status: status,
+		updated: updated
+	};
 };
 
 export default statusApi;
