@@ -1,4 +1,5 @@
 import fs from "fs";
+import { announcementsTemplate } from "../utils/defineTemplates";
 
 const announcementsApi = (fastify) => {
 	if (process.env.ANNOUNCEMENTS_STATE === "0") {
@@ -11,7 +12,7 @@ const announcementsApi = (fastify) => {
 		});
 	} else {
 		fastify.get("/tools/announcements", (request, reply) => {
-			reply.sendFile("tools/announcements.html");
+			reply.type("text/html").send(announcementsTemplate);
 		});
 		fastify.get("/api/v1/state/announcements", async (request, reply) => {
 			reply.send({ enabled: true });

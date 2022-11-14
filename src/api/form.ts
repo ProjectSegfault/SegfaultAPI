@@ -1,5 +1,6 @@
 import { verify } from "hcaptcha";
 import { Webhook, MessageBuilder } from "discord-webhook-node";
+import { formTemplate } from "../utils/defineTemplates";
 
 const formApi = (fastify) => {
 	if (process.env.FORM_STATE === "0") {
@@ -12,7 +13,7 @@ const formApi = (fastify) => {
 		});
 	} else {
 		fastify.get("/tools/form", (request, reply) => {
-			reply.sendFile("tools/form.html");
+			reply.type("text/html").send(formTemplate);
 		});
 		fastify.get("/api/v1/state/form", async (request, reply) => {
 			reply.send({ enabled: true });

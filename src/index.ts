@@ -3,7 +3,6 @@ import * as dotenv from "dotenv";
 dotenv.config();
 
 import Fastify from "fastify";
-import fastifyStatic from "@fastify/static";
 import formBodyPlugin from "@fastify/formbody";
 import fastifySensible from "@fastify/sensible";
 import cors from "@fastify/cors";
@@ -11,20 +10,13 @@ import statusApi from "./api/status";
 import announcementsApi from "./api/announcements";
 import formApi from "./api/form";
 import validateConfig from "./utils/validateConfig";
-import { dirname, join } from "path";
-import { fileURLToPath } from "url";
-
-const __dirname = dirname(fileURLToPath(import.meta.url));
+import { indexTemplate, cssLiteral } from "./utils/defineTemplates";
 
 const fastify = Fastify({
 	logger: true
 });
 
 fastify.register(formBodyPlugin);
-
-fastify.register(fastifyStatic, {
-	root: join(__dirname, "static")
-});
 
 fastify.register(fastifySensible);
 
@@ -33,11 +25,11 @@ fastify.register(cors, {
 });
 
 fastify.get("/", (request, reply) => {
-	reply.sendFile("index.html");
+	reply.type("text/html").send(indexTemplate);
 });
 
 fastify.get("/global.css", (request, reply) => {
-	reply.sendFile("global.css");
+	reply.type("text/css").send(cssLiteral);
 });
 
 announcementsApi(fastify);
