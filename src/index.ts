@@ -6,14 +6,20 @@ import Fastify from "fastify";
 import formBodyPlugin from "@fastify/formbody";
 import fastifySensible from "@fastify/sensible";
 import cors from "@fastify/cors";
+import pointOfView from "@fastify/view";
+import Handlebars from "handlebars";
 import statusApi from "./api/status";
 import announcementsApi from "./api/announcements";
 import formApi from "./api/form";
 import validateConfig from "./utils/validateConfig";
-import { indexTemplate, cssLiteral } from "./utils/defineTemplates";
+import log from "./utils/logUtil";
+import { join, dirname } from "path";
+import { fileURLToPath } from "url";
+
+const __dirname = dirname(fileURLToPath(import.meta.url));
 
 const fastify = Fastify({
-	logger: true
+	logger: process.env.NODE_ENV === "production" ? false : true
 });
 
 fastify.register(formBodyPlugin);
@@ -24,12 +30,17 @@ fastify.register(cors, {
 	origin: "*"
 });
 
-fastify.get("/", (request, reply) => {
-	reply.type("text/html").send(indexTemplate);
-});
+fastify.register(pointOfView, {
+    engine: {
+        handlebars: Handlebars
+    },
+    root: join(__dirname, "templates"),
+    layout: "layout",
+    viewExt: "hbs"
+})
 
-fastify.get("/global.css", (request, reply) => {
-	reply.type("text/css").send(cssLiteral);
+fastify.get("/", (request, reply) => {
+	reply.view("index", { port: process.env.PORT, title: "index" });
 });
 
 announcementsApi(fastify);
@@ -44,6 +55,6 @@ fastify.listen(
 			process.exit(1);
 		}
 		validateConfig();
-		console.log(`[SegfaultAPI] listening on ${address}`);
+		log("Listening on http://localhost:" + process.env.PORT);
 	}
 );

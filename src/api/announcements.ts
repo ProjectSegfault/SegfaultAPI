@@ -1,9 +1,9 @@
 import fs from "fs";
-import { announcementsTemplate } from "../utils/defineTemplates";
+import log from "../utils/logUtil";
 
 const announcementsApi = (fastify) => {
 	if (process.env.ANNOUNCEMENTS_STATE === "0") {
-		console.log("[SegfaultAPI] The announcements api is disabled.");
+		log("The announcements api is disabled.", "warning");
 		fastify.get("/tools/announcements", async (request, reply) => {
 			reply.send("The announcements api is disabled.");
 		});
@@ -11,9 +11,10 @@ const announcementsApi = (fastify) => {
 			reply.send({ enabled: false });
 		});
 	} else {
-		fastify.get("/tools/announcements", (request, reply) => {
-			reply.type("text/html").send(announcementsTemplate);
+        fastify.get("/tools/announcements", (request, reply) => {
+			reply.view("announcements", { title: "announcement command centre" });
 		});
+
 		fastify.get("/api/v1/state/announcements", async (request, reply) => {
 			reply.send({ enabled: true });
 		});
@@ -70,16 +71,11 @@ const handleAnnouncements = async (request, reply) => {
 				link: request.body.link,
 				severity: request.body.severity,
 				author: request.body.author,
-				created: now,
-				hasAnnouncement: true
+				created: now
 			};
 
 			const stringData = JSON.stringify(data);
-			fs.writeFile("./data/announcements.json", stringData, (err) => {
-				if (err) {
-					console.error(err);
-				}
-			});
+			fs.writeFileSync("./data/announcements.json", stringData);
 		}
 		return;
 	}
@@ -93,11 +89,7 @@ const handleAnnouncementDeleteRequest = async (request, reply) => {
 		return;
 	} else {
 		reply.status(200).send("Your announcement has been deleted.");
-		fs.writeFile("./data/announcements.json", "", (err) => {
-			if (err) {
-				console.error(err);
-			}
-		});
+		fs.writeFileSync("./data/announcements.json", "");
 		return;
 	}
 };

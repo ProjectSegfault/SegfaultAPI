@@ -1,10 +1,10 @@
 import { verify } from "hcaptcha";
 import { Webhook, MessageBuilder } from "discord-webhook-node";
-import { formTemplate } from "../utils/defineTemplates";
+import log from "../utils/logUtil";
 
 const formApi = (fastify) => {
 	if (process.env.FORM_STATE === "0") {
-		console.log("[SegfaultAPI] The form api is disabled.");
+		log("The form api is disabled.", "warning");
 		fastify.get("/tools/form", async (request, reply) => {
 			reply.send("The form api is disabled.");
 		});
@@ -12,9 +12,10 @@ const formApi = (fastify) => {
 			reply.send({ enabled: false });
 		});
 	} else {
-		fastify.get("/tools/form", (request, reply) => {
-			reply.type("text/html").send(formTemplate);
+        fastify.get("/tools/form", (request, reply) => {
+			reply.view("form", { title: "form implementation example" })
 		});
+
 		fastify.get("/api/v1/state/form", async (request, reply) => {
 			reply.send({ enabled: true });
 		});
