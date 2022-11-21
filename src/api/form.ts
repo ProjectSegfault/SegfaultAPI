@@ -1,6 +1,7 @@
 import { verify } from "hcaptcha";
 import { Webhook, MessageBuilder } from "discord-webhook-node";
 import log from "../utils/logUtil";
+import getIp from "../utils/getIp";
 
 const formApi = (fastify) => {
 	if (process.env.FORM_STATE === "0") {
@@ -27,15 +28,15 @@ const formApi = (fastify) => {
 };
 
 const handleForm = (request, reply) => {
-	const ipAddress = request.socket.remoteAddress;
+    const ip = getIp(request);
 
-	verify(process.env.HCAPTCHA_SECRET, process.env.HCAPTCHA_SITEKEY)
+	verify(String(process.env.HCAPTCHA_SECRET), String(process.env.HCAPTCHA_SITEKEY))
 		.then((data) => {
-			const hook = new Webhook(process.env.WEBHOOK_URL);
+			const hook = new Webhook(String(process.env.WEBHOOK_URL));
 			if (data.success === true) {
 				const embed = new MessageBuilder()
 					.setAuthor(
-						`${ipAddress}, ${request.body.email}, https://abuseipdb.com/check/${ipAddress}`
+						`${ip}, ${request.body.email}, https://abuseipdb.com/check/${ip}`
 					)
 					.addField("Comment type", request.body.commentType, true)
 					.addField("Message", request.body.message)
@@ -52,7 +53,7 @@ const handleForm = (request, reply) => {
 				);
 
 				hook.send(
-					`IP: ${ipAddress}, https://abuseipdb.com/check/${ipAddress}\nfailed to complete the captcha.`
+					`IP: ${ip}, https://abuseipdb.com/check/${ip}\nfailed to complete the captcha.`
 				);
 			}
 		})
