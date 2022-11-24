@@ -18,8 +18,10 @@ import { fileURLToPath } from "url";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 
+let isProd = process.env.NODE_ENV === "production" ? true : false
+
 const fastify = Fastify({
-	logger: process.env.NODE_ENV === "production" ? false : true
+	logger: isProd ? true : false
 });
 
 fastify.register(formBodyPlugin);
@@ -48,7 +50,7 @@ formApi(fastify);
 statusApi(fastify);
 
 fastify.listen(
-	{ port: Number(process.env.PORT), host: "0.0.0.0" },
+	{ port: Number(process.env.PORT), host: isProd ? "0.0.0.0" : "localhost" },
 	(err, address) => {
 		if (err) {
 			fastify.log.error(err);

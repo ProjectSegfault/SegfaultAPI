@@ -1,4 +1,4 @@
-import ping from "ping";
+import ping from "../utils/ping";
 
 const statusApi = async (fastify) => {
 	const map = new Map();
@@ -15,25 +15,6 @@ const statusApi = async (fastify) => {
 };
 
 const fetchData = async () => {
-	const updated = Math.floor(Date.now() / 1000);
-	const invidious = await ping.promise.probe("invidious.projectsegfau.lt");
-    const invUs = await ping.promise.probe("inv.us.projectsegfau.lt");
-    const invBp = await ping.promise.probe("inv.bp.projectsegfau.lt");
-	const librarian = await ping.promise.probe("lbry.projectsegfau.lt");
-	const libreddit = await ping.promise.probe("libreddit.projectsegfau.lt");
-    const libredditUs = await ping.promise.probe("libreddit.us.projectsegfau.lt");
-	const nitter = await ping.promise.probe("nitter.projectsegfau.lt");
-    const nitterUs = await ping.promise.probe("nitter.us.projectsegfau.lt");
-	const element = await ping.promise.probe("chat.projectsegfau.lt");
-	const piped = await ping.promise.probe("piped.projectsegfau.lt");
-    const pipedUs = await ping.promise.probe("piped.us.projectsegfau.lt");
-	const searxng = await ping.promise.probe("search.projectsegfau.lt");
-    const searxngUs = await ping.promise.probe("search.us.projectsegfau.lt");
-	const gitea = await ping.promise.probe("git.projectsegfau.lt");
-	const portainer = await ping.promise.probe("portainer.projectsegfau.lt");
-	const mailcow = await ping.promise.probe("projectsegfau.lt");
-	const plausible = await ping.promise.probe("analytics.projectsegfau.lt");
-
 	const status = [
 		{
 			name: "General",
@@ -45,16 +26,16 @@ const fetchData = async () => {
                     us: "https://inv.us.projectsegfau.lt",
                     bp: "https://inv.bp.projectsegfau.lt",
 					icon: "https://github.com/iv-org/invidious/raw/master/assets/invidious-colored-vector.svg",
-					status: invidious.alive,
-                    statusUs: invUs.alive,
-                    statusBp: invBp.alive
+					status: await ping("invidious.projectsegfau.lt"),
+                    statusUs: await ping("inv.us.projectsegfau.lt"),
+                    statusBp: await ping("inv.bp.projectsegfau.lt")
 				},
 				{
 					name: "Librarian",
 					description: "A frontend for Odysee.",
 					link: "https://lbry.projectsegfau.lt/",
 					icon: "https://codeberg.org/avatars/dd785d92b4d4df06d448db075cd29274",
-					status: librarian.alive
+					status: await ping("lbry.projectsegfau.lt")
 				},
 				{
 					name: "Libreddit",
@@ -62,8 +43,8 @@ const fetchData = async () => {
 					link: "https://libreddit.projectsegfau.lt/",
                     us: "https://libreddit.us.projectsegfau.lt",
 					icon: "https://github.com/spikecodes/libreddit/raw/master/static/logo.png",
-					status: libreddit.alive,
-                    statusUs: libredditUs.alive
+					status: await ping("libreddit.projectsegfau.lt"),
+                    statusUs: await ping("libreddit.us.projectsegfau.lt")
 				},
 				{
 					name: "Nitter",
@@ -71,8 +52,8 @@ const fetchData = async () => {
 					link: "https://nitter.projectsegfau.lt/",
                     us: "https://nitter.us.projectsegfau.lt",
 					icon: "https://github.com/zedeus/nitter/raw/master/public/logo.png",
-					status: nitter.alive,
-                    statusUs: nitterUs.alive
+					status: await ping("nitter.projectsegfau.lt"),
+                    statusUs: await ping("nitter.us.projectsegfau.lt")
 				},
 				{
 					name: "Element",
@@ -80,7 +61,7 @@ const fetchData = async () => {
 						"An open source and decentralized chat application.",
 					link: "https://chat.projectsegfau.lt/",
 					icon: "https://element.io/images/logo-mark-primary.svg",
-					status: element.alive
+					status: await ping("chat.projectsegfau.lt")
 				},
 				{
 					name: "Piped",
@@ -88,8 +69,8 @@ const fetchData = async () => {
 					link: "https://piped.projectsegfau.lt/",
                     us: "https://piped.us.projectsegfau.lt",
 					icon: "https://github.com/TeamPiped/Piped/raw/master/public/img/icons/logo.svg",
-					status: piped.alive,
-                    statusUs: pipedUs.alive
+					status: await ping("piped.projectsegfau.lt"),
+                    statusUs: await ping("piped.us.projectsegfau.lt")
 				},
 				{
 					name: "SearXNG",
@@ -97,8 +78,8 @@ const fetchData = async () => {
 					link: "https://search.projectsegfau.lt/search",
                     us: "https://search.us.projectsegfau.lt",
 					icon: "https://docs.searxng.org/_static/searxng-wordmark.svg",
-					status: searxng.alive,
-                    statusUs: searxngUs.alive
+					status: await ping("search.projectsegfau.lt"),
+                    statusUs: await ping("search.us.projectsegfau.lt")
 				},
 				{
 					name: "Gitea",
@@ -106,7 +87,7 @@ const fetchData = async () => {
 						"A web interface for Git, alternative to GitHub.",
 					link: "https://git.projectsegfau.lt/",
 					icon: "https://gitea.io/images/gitea.png",
-					status: gitea.alive
+					status: await ping("git.projectsegfau.lt")
 				}
 			]
 		},
@@ -118,21 +99,21 @@ const fetchData = async () => {
 					description: "Portainer instance for our servers.",
 					link: "https://portainer.projectsegfau.lt/",
 					icon: "https://avatars.githubusercontent.com/u/22225832",
-					status: portainer.alive
+					status: await ping("portainer.projectsegfau.lt")
 				},
 				{
 					name: "mailcow",
 					description: "Our mail server and webmail.",
 					link: "https://mail.projectsegfau.lt/",
 					icon: "https://mailcow.email/images/cow_mailcow.svg",
-					status: mailcow.alive
+					status: await ping("mail.projectsegfau.lt")
 				},
 				{
 					name: "Plausible analytics",
 					description: "Analytics for our website.",
 					link: "https://analytics.projectsegfau.lt/projectsegfau.lt",
 					icon: "https://avatars.githubusercontent.com/u/54802774",
-					status: plausible.alive
+					status: await ping("analytics.projectsegfau.lt")
 				}
 			]
 		}
@@ -140,7 +121,7 @@ const fetchData = async () => {
 
 	return {
 		status: status,
-		updated: updated
+		updated: Math.floor(Date.now() / 1000)
 	};
 };
 

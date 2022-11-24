@@ -12,7 +12,6 @@ specifiers:
   fastify: ^4.9.2
   handlebars: ^4.7.7
   hcaptcha: ^0.1.1
-  ping: ^0.4.2
   prettier: ^2.7.1
   request-ip: ^3.3.0
   tsup: ^6.5.0
@@ -29,7 +28,6 @@ dependencies:
   fastify: 4.9.2
   handlebars: 4.7.7
   hcaptcha: 0.1.1
-  ping: 0.4.2
   request-ip: 3.3.0
 
 devDependencies:
@@ -1044,14 +1042,6 @@ packages:
     engines: {node: '>=8.6'}
     dev: true
 
-  /ping/0.4.2:
-    resolution: {integrity: sha512-1uAw0bzHtrPbPo2s6no06oZAzY6KqKclEJR1JRZKIHKXKlPdrz9N0/1MPPB+BbrvMjN3Mk0pcod3bfLNZFRo9w==}
-    engines: {node: '>=4.0.0'}
-    dependencies:
-      q: 1.5.1
-      underscore: 1.13.6
-    dev: false
-
   /pino-abstract-transport/1.0.0:
     resolution: {integrity: sha512-c7vo5OpW4wIS42hUVcT5REsL8ZljsUfBjqV/e2sFxmFEFZiq1XLUp5EYLtuDH6PEHq9W1egWqRbnLUP5FuZmOA==}
     dependencies:
@@ -1127,11 +1117,6 @@ packages:
   /punycode/2.1.1:
     resolution: {integrity: sha512-XRsRjdf+j5ml+y/6GKHPZbrF/8p2Yga0JPtdqTIY2Xe5ohJPD9saDJJLPvp9+NSBprVvevdXZybnj2cv8OEd0A==}
     engines: {node: '>=6'}
-
-  /q/1.5.1:
-    resolution: {integrity: sha512-kV/CThkXo6xyFEZUugw/+pIOywXcDbFYgSct5cT3gqlbkBE1SJdwy6UQoZvodiWF/ckQLZyDE/Bu1M6gVu5lVw==}
-    engines: {node: '>=0.6.0', teleport: '>=0.2.0'}
-    dev: false
 
   /queue-microtask/1.2.3:
     resolution: {integrity: sha512-NuaNSa6flKT5JaSYQzJok04JzTL1CA6aGhv5rfLW3PgqA+M2ChpZQnAC8h8i4ZFkBS8X5RqkDBHA7r4hej3K9A==}
@@ -1424,10 +1409,6 @@ packages:
     requiresBuild: true
     dev: false
     optional: true
-
-  /underscore/1.13.6:
-    resolution: {integrity: sha512-+A5Sja4HP1M08MaXya7p5LvjuM7K6q/2EaC0+iovj/wOcMsTzMvDFbasi/oSapiwOlt252IqsKqPjCl7huKS0A==}
-    dev: false
 
   /uri-js/4.4.1:
     resolution: {integrity: sha512-7rKUyy33Q1yc98pQ1DAmLtwX109F7TIfWlW1Ydo8Wl1ii1SeHieeh0HHfPeL2fMXK6z0s8ecKs9frCuLJvndBg==}
