@@ -4,5 +4,6 @@ export default defineConfig({
 	entry: ["src/index.ts"],
 	minify: true,
 	format: "esm",
-	clean: true
+	clean: true,
+    target: "node18"
 });
