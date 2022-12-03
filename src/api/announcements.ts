@@ -4,15 +4,22 @@ import log from "../utils/logUtil";
 const announcementsApi = (fastify) => {
 	if (process.env.ANNOUNCEMENTS_STATE === "0") {
 		log("The announcements api is disabled.", "warning");
-		fastify.get("/tools/announcements", async (request, reply) => {
+		fastify.get("/tools/announcements", (request, reply) => {
 			reply.send("The announcements api is disabled.");
 		});
+
 		fastify.get("/api/v1/state/announcements", async (request, reply) => {
 			reply.send({ enabled: false });
 		});
+
+		fastify.get("/api/v1/announcements", (request, reply) => {
+			reply.send("The announcements api is disabled.");
+		});
 	} else {
-        fastify.get("/tools/announcements", (request, reply) => {
-			reply.view("announcements", { title: "announcement command centre" });
+		fastify.get("/tools/announcements", (request, reply) => {
+			reply.view("announcements", {
+				title: "announcement command centre"
+			});
 		});
 
 		fastify.get("/api/v1/state/announcements", async (request, reply) => {

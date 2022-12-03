@@ -1,74 +1,54 @@
 <div class="col">
-    <h1>Post Announcement</h1>
-    <form
-        action="/api/v1/announcements/post"
-        method="POST"
-        target="_blank"
-        class="col"
-    >
-        <div class="meta">
-            <input
-                type="password"
-                name="token"
-                placeholder="Your authentication token"
-                required
-            />
-            <br />
-            <select
-                id="severity"
-                name="severity"
-                required
-            >
-                <option
-                    value=""
-                    selected
-                    disabled
-                >
-                    Select severity of announcement
-                </option>
-                <option value="info">Information announcement</option>
-                <option value="low">Low severity</option>
-                <option value="medium">Medium severity</option>
-                <option value="high">High severity</option>
-            </select>
-        </div>
-        <textarea
-            name="title"
-            rows="4"
-            cols="25"
-            required
-            placeholder="The announcement text"
-        ></textarea>
-        <br />
-        <input
-            type="text"
-            name="link"
-            placeholder="Your link for more details"
-        />
-        <input
-            type="text"
-            name="author"
-            placeholder="Your name"
-        />
-        <br />
-        <button type="submit">Submit</button>
-    </form>
-    <h1 style="margin-top: 20px">Delete Announcement</h1>
-    <form
-        action="/api/v1/announcements/delete"
-        method="POST"
-        target="_blank"
-        class="col"
-    >
-        <div class="meta">
-            <input
-                type="password"
-                name="token"
-                placeholder="Your authentication token"
-                required
-            />
-            <br />
-        </div>
-        <button type="delete">Delete</button>
-    </form>
+	<h1>Post Announcement</h1>
+	<form
+		action="/api/v1/announcements/post"
+		method="POST"
+		target="_blank"
+		class="col"
+	>
+		<input
+			type="password"
+			name="token"
+			placeholder="Your authentication token"
+			required
+		/>
+		<select id="severity" name="severity" required>
+			<option value="" selected disabled>
+				Select severity of announcement
+			</option>
+			<option value="info">Information announcement</option>
+			<option value="low">Low severity</option>
+			<option value="medium">Medium severity</option>
+			<option value="high">High severity</option>
+		</select>
+		<textarea
+			name="title"
+			rows="4"
+			cols="25"
+			required
+			placeholder="The announcement text"
+		></textarea>
+		<input
+			type="text"
+			name="link"
+			placeholder="Your link for more details"
+		/>
+		<input type="text" name="author" placeholder="Your name" />
+		<button type="submit">Submit</button>
+	</form>
+	<h1 style="margin-top: 20px">Delete Announcement</h1>
+	<form
+		action="/api/v1/announcements/delete"
+		method="POST"
+		target="_blank"
+		class="col"
+	>
+		<input
+			type="password"
+			name="token"
+			placeholder="Your authentication token"
+			required
+		/>
+		<button type="delete">Delete</button>
+	</form>
 </div>

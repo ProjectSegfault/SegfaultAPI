@@ -18,11 +18,12 @@ import { fileURLToPath } from "url";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 
-let isProd = process.env.NODE_ENV === "production" ? true : false
+let isProd = process.env.NODE_ENV === "production" ? true : false;
 
 const fastify = Fastify({
 	logger: isProd ? true : false
 });
+
 
 fastify.register(formBodyPlugin);
 
@@ -33,16 +34,21 @@ fastify.register(cors, {
 });
 
 fastify.register(pointOfView, {
-    engine: {
-        handlebars: Handlebars
-    },
-    root: join(__dirname, "templates"),
-    layout: "layout",
-    viewExt: "hbs"
-})
+	engine: {
+		handlebars: Handlebars
+	},
+	root: join(__dirname, "templates"),
+	layout: "layout",
+	viewExt: "hbs"
+});
 
 fastify.get("/", (request, reply) => {
-	reply.view("index", { port: process.env.PORT, title: "index" });
+	reply.view("index", {
+		port: process.env.PORT,
+		title: "index",
+		announcementsEnabled: Number(process.env.ANNOUNCEMENTS_STATE),
+		formEnabled: Number(process.env.FORM_STATE)
+	});
 });
 
 announcementsApi(fastify);
@@ -56,7 +62,7 @@ fastify.listen(
 			fastify.log.error(err);
 			process.exit(1);
 		}
-		validateConfig();
+        validateConfig();
 		log("Listening on http://localhost:" + process.env.PORT);
 	}
 );

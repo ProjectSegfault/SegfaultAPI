@@ -1,42 +1,39 @@
 <h1>
-    Welcome to SegfaultAPI
+	Welcome to SegfaultAPI
 </h1>
 <h4>
-    <span>Running on port {{port}}</span>
-    <a href="https://github.com/ProjectSegfault/SegfaultAPI">GitHub</a>
+	<span>Running on port {{port}}</span>
+	-
+	<a href="https://github.com/ProjectSegfault/SegfaultAPI">GitHub</a>
 </h4>
 <h2>Current APIs:</h2>
 <div class="col">
-    <div class="col">
-        <h3>Status</h3>
-        <a href="/api/v1/status">Status</a>
-    </div>
-    <div class="col">
-        <h3>Form</h3>
-        <a href="/api/v1/form">Form (reach via post request)</a>
-        <a href="/tools/form">Form example implementation</a>
-        <a href="/api/v1/state/form">Form state api</a>
-    </div>
-    <div class="col">
-        <h3>Announcements</h3>
-        <a href="/api/v1/announcements">Announcements</a>
-        <a href="/api/v1/announcements/post"
-            >Post announcement (reach via post request)</a
-        >
-        <a href="/api/v1/announcements/delete"
-            >Delete announcement (reach via post request)</a
-        >
-        <a href="/tools/announcements"
-            >Announcements web configuration tool</a
-        >
-        <a href="/api/v1/state/announcements"
-            >Announcements state api</a
-        >
-    </div>
+	<div class="col">
+		<h3>Status</h3>
+		<a href="/api/v1/status">Status</a>
+	</div>
+
+	{{#if formEnabled}}
+		<div class="col">
+			<h3>Form</h3>
+			<a href="/api/v1/form">Form (POST)</a>
+			<a href="/tools/form">Form example implementation</a>
+			<a href="/api/v1/state/form">Form state api</a>
+		</div>
+	{{/if}}
+
+	{{#if announcementsEnabled}}
+		<div class="col">
+			<h3>Announcements</h3>
+			<a href="/api/v1/announcements">Announcements</a>
+			<a href="/api/v1/announcements/post">Post announcement (POST)</a>
+			<a href="/api/v1/announcements/delete">Delete announcement (POST)</a>
+			<a href="/tools/announcements">Announcements web configuration tool</a>
+			<a href="/api/v1/state/announcements">Announcements state api</a>
+		</div>
+	{{/if}}
 </div>
 
 <style>
-    .back-btn {
-        display: none;
-    }
+	.back-btn { display: none; }
 </style>

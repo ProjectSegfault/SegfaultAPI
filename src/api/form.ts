@@ -13,8 +13,8 @@ const formApi = (fastify) => {
 			reply.send({ enabled: false });
 		});
 	} else {
-        fastify.get("/tools/form", (request, reply) => {
-			reply.view("form", { title: "form implementation example" })
+		fastify.get("/tools/form", (request, reply) => {
+			reply.view("form", { title: "form implementation example" });
 		});
 
 		fastify.get("/api/v1/state/form", async (request, reply) => {
@@ -28,9 +28,12 @@ const formApi = (fastify) => {
 };
 
 const handleForm = (request, reply) => {
-    const ip = getIp(request);
+	const ip = getIp(request);
 
-	verify(String(process.env.HCAPTCHA_SECRET), String(process.env.HCAPTCHA_SITEKEY))
+	verify(
+		String(process.env.HCAPTCHA_SECRET),
+		String(process.env.HCAPTCHA_SITEKEY)
+	)
 		.then((data) => {
 			const hook = new Webhook(String(process.env.WEBHOOK_URL));
 			if (data.success === true) {
