@@ -5,7 +5,9 @@ specifiers:
   '@fastify/formbody': ^7.3.0
   '@fastify/sensible': ^5.1.1
   '@fastify/view': ^7.1.2
+  '@tsconfig/node18-strictest-esm': ^1.0.1
   '@types/node': ^18.11.9
+  '@types/request-ip': ^0.0.37
   axios: ^1.2.0
   chalk: ^5.1.2
   discord-webhook-node: ^1.1.8
@@ -17,6 +19,7 @@ specifiers:
   request-ip: ^3.3.0
   tsup: ^6.5.0
   tsx: ^3.12.1
+  typescript: ^4.9.3
 
 dependencies:
   '@fastify/cors': 8.2.0
@@ -33,10 +36,13 @@ dependencies:
   request-ip: 3.3.0
 
 devDependencies:
+  '@tsconfig/node18-strictest-esm': 1.0.1
   '@types/node': 18.11.9
+  '@types/request-ip': 0.0.37
   prettier: 2.7.1
-  tsup: 6.5.0
+  tsup: 6.5.0_typescript@4.9.3
   tsx: 3.12.1
+  typescript: 4.9.3
 
 packages:
 
@@ -155,8 +161,18 @@ packages:
       fastq: 1.13.0
     dev: true
 
+  /@tsconfig/node18-strictest-esm/1.0.1:
+    resolution: {integrity: sha512-cHzmAqw7CMbyqROWeBgVhard3F2V6zxOSJnQ4E6SJWruXD5ypuP9/QKekwBdfXQ4oUTaizIICKIwb+v3v33t0w==}
+    dev: true
+
   /@types/node/18.11.9:
     resolution: {integrity: sha512-CRpX21/kGdzjOpFsZSkcrXMGIBWMGNIHXXBVFSH+ggkftxg+XYP20TESbh+zFvFj3EQOl5byk0HTRn1IL6hbqg==}
+    dev: true
+
+  /@types/request-ip/0.0.37:
+    resolution: {integrity: sha512-uw6/i3rQnpznxD7LtLaeuZytLhKZK6bRoTS6XVJlwxIOoOpEBU7bgKoVXDNtOg4Xl6riUKHa9bjMVrL6ESqYlQ==}
+    dependencies:
+      '@types/node': 18.11.9
     dev: true
 
   /abort-controller/3.0.0:
@@ -1383,7 +1399,7 @@ packages:
     resolution: {integrity: sha512-Y/arvbn+rrz3JCKl9C4kVNfTfSm2/mEp5FSz5EsZSANGPSlQrpRI5M4PKF+mJnE52jOO90PnPSc3Ur3bTQw0gA==}
     dev: true
 
-  /tsup/6.5.0:
+  /tsup/6.5.0_typescript@4.9.3:
     resolution: {integrity: sha512-36u82r7rYqRHFkD15R20Cd4ercPkbYmuvRkz3Q1LCm5BsiFNUgpo36zbjVhCOgvjyxNBWNKHsaD5Rl8SykfzNA==}
     engines: {node: '>=14'}
     hasBin: true
@@ -1413,6 +1429,7 @@ packages:
       source-map: 0.8.0-beta.0
       sucrase: 3.29.0
       tree-kill: 1.2.2
+      typescript: 4.9.3
     transitivePeerDependencies:
       - supports-color
       - ts-node
@@ -1436,6 +1453,12 @@ packages:
       media-typer: 0.3.0
       mime-types: 2.1.35
     dev: false
+
+  /typescript/4.9.3:
+    resolution: {integrity: sha512-CIfGzTelbKNEnLpLdGFgdyKhG23CKdKgQPOBc+OUNrkJ2vr+KSzsSV5kq5iWhEQbok+quxgGzrAtGWCyU7tHnA==}
+    engines: {node: '>=4.2.0'}
+    hasBin: true
+    dev: true
 
   /uglify-js/3.17.4:
     resolution: {integrity: sha512-T9q82TJI9e/C1TAxYvfb16xO120tMVFZrGA3f9/P4424DNu6ypK103y0GPFVa17yotwSyZW5iYXgjYHkGrJW/g==}

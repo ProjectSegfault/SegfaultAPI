@@ -2,32 +2,39 @@ import { verify } from "hcaptcha";
 import { Webhook, MessageBuilder } from "discord-webhook-node";
 import log from "../utils/logUtil";
 import getIp from "../utils/getIp";
+import type { FastifyInstance, FastifyReply, FastifyRequest } from "fastify";
 
-const formApi = (fastify) => {
+const formApi = (fastify: FastifyInstance) => {
 	if (process.env.FORM_STATE === "0") {
 		log("The form api is disabled.", "warning");
-		fastify.get("/tools/form", async (request, reply) => {
+		fastify.get("/tools/form", async (request: FastifyRequest, reply: FastifyReply) => {
 			reply.send("The form api is disabled.");
 		});
-		fastify.get("/api/v1/state/form", async (request, reply) => {
+		fastify.get("/api/v1/state/form", async (request: FastifyRequest, reply: FastifyReply) => {
 			reply.send({ enabled: false });
 		});
 	} else {
-		fastify.get("/tools/form", (request, reply) => {
+		fastify.get("/tools/form", (request: FastifyRequest, reply: FastifyReply) => {
 			reply.view("form", { title: "form implementation example" });
 		});
 
-		fastify.get("/api/v1/state/form", async (request, reply) => {
+		fastify.get("/api/v1/state/form", async (request: FastifyRequest, reply: FastifyReply) => {
 			reply.send({ enabled: true });
 		});
 
-		fastify.post("/api/v1/form", (request, reply) => {
+		fastify.post("/api/v1/form", (request: FastifyRequest<{ Body: BodyType }>, reply: FastifyReply) => {
 			handleForm(request, reply);
 		});
 	}
 };
 
-const handleForm = (request, reply) => {
+interface BodyType {
+    email: string;
+    commentType: string;
+    message: string;
+}
+
+const handleForm = (request: FastifyRequest<{ Body: BodyType }>, reply: FastifyReply) => {
 	const ip = getIp(request);
 
 	verify(

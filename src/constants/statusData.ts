@@ -1,4 +1,4 @@
-import fetchStatus from "./fetchStatus";
+import fetchStatus from "../utils/fetchStatus";
 
 const statusData = [
 	{

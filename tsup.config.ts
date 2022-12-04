@@ -5,5 +5,5 @@ export default defineConfig({
 	minify: true,
 	format: "esm",
 	clean: true,
-	target: "node18"
+    tsconfig: "tsconfig.json"
 });

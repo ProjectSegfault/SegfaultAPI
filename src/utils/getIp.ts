@@ -1,6 +1,7 @@
+import type { FastifyRequest } from "fastify";
 import requestIp from "request-ip";
 
-const getIP = (request) => {
+const getIP = (request: FastifyRequest) => {
 	let ipAddress = requestIp.getClientIp(request);
 	return ipAddress;
 };
