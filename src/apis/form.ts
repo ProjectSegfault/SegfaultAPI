@@ -38,8 +38,8 @@ const handleForm = (request: FastifyRequest<{ Body: BodyType }>, reply: FastifyR
 	const ip = getIp(request);
 
 	verify(
-		String(process.env.HCAPTCHA_SECRET),
-		String(process.env.HCAPTCHA_SITEKEY)
+		process.env.HCAPTCHA_SECRET,
+		process.env.HCAPTCHA_SITEKEY
 	)
 		.then((data) => {
 			const hook = new Webhook(String(process.env.WEBHOOK_URL));
