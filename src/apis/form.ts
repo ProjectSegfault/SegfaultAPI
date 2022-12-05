@@ -32,6 +32,7 @@ interface BodyType {
     email: string;
     commentType: string;
     message: string;
+    "h-captcha-response": string;
 }
 
 const handleForm = (request: FastifyRequest<{ Body: BodyType }>, reply: FastifyReply) => {
@@ -39,10 +40,10 @@ const handleForm = (request: FastifyRequest<{ Body: BodyType }>, reply: FastifyR
 
 	verify(
 		process.env.HCAPTCHA_SECRET,
-		process.env.HCAPTCHA_SITEKEY
+		request.body["h-captcha-response"]
 	)
 		.then((data) => {
-			const hook = new Webhook(String(process.env.WEBHOOK_URL));
+			const hook = new Webhook(process.env.WEBHOOK_URL);
 			if (data.success === true) {
 				const embed = new MessageBuilder()
 					.setAuthor(
