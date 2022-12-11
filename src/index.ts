@@ -12,17 +12,18 @@ import Handlebars from "handlebars";
 import statusApi from "./apis/status";
 import announcementsApi from "./apis/announcements";
 import formApi from "./apis/form";
-import validateConfig from "./utils/validateConfig";
+import userApi from "./apis/user";
 import log from "./utils/logUtil";
 import { join, dirname } from "path";
 import { fileURLToPath } from "url";
+import config from "./utils/config";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 
-let isProd = process.env.NODE_ENV === "production" ? true : false;
+let isProd = process.env["NODE_ENV"] === "production" ? true : false;
 
 const fastify: FastifyInstance = Fastify({
-	logger: isProd ? true : false
+	logger: isProd ? false : true
 });
 
 fastify.register(formBodyPlugin);
@@ -44,25 +45,25 @@ fastify.register(pointOfView, {
 
 fastify.get("/", (request: FastifyRequest, reply: FastifyReply) => {
 	reply.view("index", {
-		port: process.env.PORT,
+		port: config.app.port,
 		title: "index",
-		announcementsEnabled: Number(process.env.ANNOUNCEMENTS_STATE),
-		formEnabled: Number(process.env.FORM_STATE)
+		announcementsEnabled: config.app.state.announcements,
+		formEnabled: config.app.state.form
 	});
 });
 
 announcementsApi(fastify);
 formApi(fastify);
 statusApi(fastify);
+userApi(fastify);
 
 fastify.listen(
-	{ port: Number(process.env.PORT), host: isProd ? "0.0.0.0" : "localhost" },
+	{ port: config.app.port, host: isProd ? "0.0.0.0" : "localhost" },
 	(err, address) => {
 		if (err) {
 			fastify.log.error(err);
 			process.exit(1);
 		}
-		validateConfig();
 		log("Listening on " + address);
 	}
 );
