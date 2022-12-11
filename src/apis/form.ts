@@ -3,9 +3,10 @@ import { Webhook, MessageBuilder } from "discord-webhook-node";
 import log from "../utils/logUtil";
 import getIp from "../utils/getIp";
 import type { FastifyInstance, FastifyReply, FastifyRequest } from "fastify";
+import config from "../utils/config";
 
 const formApi = (fastify: FastifyInstance) => {
-	if (process.env.FORM_STATE === "0") {
+	if (!config.app.state.form) {
 		log("The form api is disabled.", "warning");
 		fastify.get("/tools/form", async (request: FastifyRequest, reply: FastifyReply) => {
 			reply.send("The form api is disabled.");
@@ -15,7 +16,7 @@ const formApi = (fastify: FastifyInstance) => {
 		});
 	} else {
 		fastify.get("/tools/form", (request: FastifyRequest, reply: FastifyReply) => {
-			reply.view("form", { title: "form implementation example" });
+			reply.view("form", { title: "form implementation example", sitekey: config.app.hcaptcha.sitekey });
 		});
 
 		fastify.get("/api/v1/state/form", async (request: FastifyRequest, reply: FastifyReply) => {
@@ -39,11 +40,11 @@ const handleForm = (request: FastifyRequest<{ Body: BodyType }>, reply: FastifyR
 	const ip = getIp(request);
 
 	verify(
-		process.env.HCAPTCHA_SECRET,
+		config.app.hcaptcha.secret,
 		request.body["h-captcha-response"]
 	)
 		.then((data) => {
-			const hook = new Webhook(process.env.WEBHOOK_URL);
+			const hook = new Webhook(config.app.webhook);
 			if (data.success === true) {
 				const embed = new MessageBuilder()
 					.setAuthor(

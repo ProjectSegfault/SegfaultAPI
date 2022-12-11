@@ -1,16 +1,14 @@
-FROM node:19-alpine
+FROM node:18-alpine
 
-WORKDIR /usr/src/app
+WORKDIR /app
 
-COPY package.json ./
-COPY pnpm-lock.yaml ./
+COPY package.json .
+COPY pnpm-lock.yaml .
 
 RUN npm i -g pnpm
 RUN pnpm i
 
 COPY . .
-
-RUN pnpm build
 
 ENV NODE_ENV=production
 

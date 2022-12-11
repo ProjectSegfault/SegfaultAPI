@@ -1,0 +1,101 @@
+<div class="col">
+	<h1>User signup</h1>
+	<form
+		action="/api/v1/user/signup"
+		method="POST"
+		target="_blank"
+		class="col"
+	>
+		<input
+			type="text"
+			name="username"
+			placeholder="Your username"
+		/>
+		<input type="password" name="password" placeholder="Your password" />
+		<button type="submit">Submit</button>
+	</form>
+
+    <h1>User login</h1>
+	<form
+		action="/api/v1/user/login"
+		method="POST"
+		target="_blank"
+		class="col"
+	>
+		<input
+			type="text"
+			name="username"
+			placeholder="Your username"
+		/>
+		<input type="password" name="password" placeholder="Your password" />
+		<button type="submit">Submit</button>
+	</form>
+
+    <h1>User delete</h1>
+	<form
+		action="/api/v1/user/delete"
+		method="POST"
+		target="_blank"
+		class="col"
+	>
+        {{#if isAdmin}}
+            <input
+                type="text"
+                name="username"
+                placeholder="Username to delete"
+            />
+        {{/if}}
+		<button type="submit">Submit</button>
+	</form>
+
+    <h1>User change password</h1>
+	<form
+		action="/api/v1/user/changepassword"
+		method="POST"
+		target="_blank"
+		class="col"
+	>
+        {{#if isAdmin}}
+            <input
+                type="text"
+                name="username"
+                placeholder="Username"
+            />
+        {{/if}}
+        <input type="password" name="newpassword" placeholder="Your new password" />
+		<button type="submit">Submit</button>
+	</form>
+
+    <h1>Create admin user</h1>
+	<form
+		action="/api/v1/user/createadmin"
+		method="POST"
+		target="_blank"
+		class="col"
+	>
+		<input type="password" name="password" placeholder="Admin password" />
+		<button type="submit">Submit</button>
+	</form>
+
+    <h1>User change username</h1>
+	<form
+		action="/api/v1/user/changeusername"
+		method="POST"
+		target="_blank"
+		class="col"
+	>
+        {{#if isAdmin}}
+            <input
+                type="text"
+                name="username"
+                placeholder="Username"
+            />
+        {{/if}}
+        <input
+            type="text"
+            name="newusername"
+            placeholder="New username"
+        />
+		<button type="submit">Submit</button>
+	</form>
+</div>

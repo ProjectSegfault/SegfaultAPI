@@ -1,6 +1,6 @@
 # SegfaultAPI
 
-Web utilities and APIs for Project Segfault, written in TypeScript with Fastify.
+Web utilities and APIs for Project Segfault, written in TypeScript with Fastify and MongoDB.
 
 ## What does it do?
 
@@ -11,12 +11,12 @@ It powers our website's contact form, announcements and instances page.
 ### Docker
 
 ```
-docker-compose --env-file .my-env  up -d
+docker compose up -d
 ```
 
-You need to make a .env file with the values in .env.example in the current directory for the container to use.
-
 We recommend using Docker as it provides better security (we suck in security, so that's why) and we are constantly updating SegfaultAPI. Docker makes it easy to update the program.
+
+You should add `MONGO_USER` and `MONGO_PASSWORD` to your environment as well as make a config.yml file with the values in config/config.example.yml and mount it in your host system if you want to.
 
 If you're using Portainer, you should know how to add SegfaultAPI.
 
