@@ -20,7 +20,7 @@ import config from "./utils/config";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 
-let isProd = process.env.NODE_ENV === "production" ? true : false;
+let isProd = process.env["NODE_ENV"] === "production" ? true : false;
 
 const fastify: FastifyInstance = Fastify({
 	logger: isProd ? false : true
