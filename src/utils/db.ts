@@ -79,7 +79,7 @@ export const readAnnouncements = async (request: FastifyRequest, reply: FastifyR
     const collection = db.collection("announcements");
 
     await collection.find({}, { projection: { _id: false } }).toArray().then((data) => {
-        if (data === undefined) {
+        if ( data.length === 0 || data[0] === undefined) {
             reply.notFound("There are no announcements.");
         } else {
             reply.send(data);

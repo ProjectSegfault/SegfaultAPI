@@ -17,7 +17,7 @@ const announcementsApi = (fastify: FastifyInstance) => {
 			reply.send("The announcements api is disabled.");
 		});
 
-		fastify.get("/api/v1/state/announcements", async (request: FastifyRequest, reply: FastifyReply) => {
+		fastify.get("/api/v1/state/announcements", (request: FastifyRequest, reply: FastifyReply) => {
 			reply.send({ enabled: false });
 		});
 
@@ -31,7 +31,7 @@ const announcementsApi = (fastify: FastifyInstance) => {
 			});
 		});
 
-		fastify.get("/api/v1/state/announcements", async (request: FastifyRequest, reply: FastifyReply) => {
+		fastify.get("/api/v1/state/announcements", (request: FastifyRequest, reply: FastifyReply) => {
 			reply.send({ enabled: true });
 		});
 

@@ -1,14 +1,15 @@
 db:
-  url:
-    docker: mongodb://yourusername:yourpassword@segfaultapi-db:27017
-    local: mongodb://yourusername:yourpassword@0.0.0.0:27017
+	url:
+		docker: mongodb://yourusername:yourpassword@segfaultapi-db:27017
+		local: mongodb://yourusername:yourpassword@0.0.0.0:27017
 
 app:
-  port: 6893
-  hcaptcha:
-    secret: yourhcaptchasecret
-    sitekey: yourhcaptchasitekey
-  webhook: yourdiscordwebhookurl
-  state:
-    announcements: true
-    form: true
+    port: 6893
+    hcaptcha:
+        secret: yourhcaptchasecret
+        sitekey: yourhcaptchasitekey
+    webhook: yourdiscordwebhookurl
+    state:
+        announcements: true
+        form: true
+        status: true

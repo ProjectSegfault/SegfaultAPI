@@ -20,6 +20,7 @@ interface Config {
         state: {
             announcements: boolean;
             form: boolean;
+			status: boolean;
         }
     }
 }

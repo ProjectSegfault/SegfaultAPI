@@ -1,7 +1,3 @@
-import * as dotenv from "dotenv";
-
-dotenv.config();
-
 import Fastify from "fastify";
 import type { FastifyInstance, FastifyRequest, FastifyReply } from "fastify";
 import formBodyPlugin from "@fastify/formbody";
