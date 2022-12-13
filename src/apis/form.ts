@@ -8,41 +8,62 @@ import config from "../utils/config";
 const formApi = (fastify: FastifyInstance) => {
 	if (!config.app.state.form) {
 		log("The form api is disabled.", "warning");
-		fastify.get("/tools/form", async (request: FastifyRequest, reply: FastifyReply) => {
-			reply.send("The form api is disabled.");
-		});
-		fastify.get("/api/v1/state/form", async (request: FastifyRequest, reply: FastifyReply) => {
-			reply.send({ enabled: false });
-		});
+		fastify.get(
+			"/tools/form",
+			async (request: FastifyRequest, reply: FastifyReply) => {
+				reply.send("The form api is disabled.");
+			}
+		);
+		fastify.get(
+			"/api/v1/state/form",
+			async (request: FastifyRequest, reply: FastifyReply) => {
+				reply.send({ enabled: false });
+			}
+		);
 	} else {
-		fastify.get("/tools/form", (request: FastifyRequest, reply: FastifyReply) => {
-			reply.view("form", { title: "form implementation example", sitekey: config.app.hcaptcha.sitekey });
-		});
+		fastify.get(
+			"/tools/form",
+			(request: FastifyRequest, reply: FastifyReply) => {
+				reply.view("form", {
+					title: "form implementation example",
+					sitekey: config.app.hcaptcha.sitekey
+				});
+			}
+		);
 
-		fastify.get("/api/v1/state/form", async (request: FastifyRequest, reply: FastifyReply) => {
-			reply.send({ enabled: true });
-		});
+		fastify.get(
+			"/api/v1/state/form",
+			async (request: FastifyRequest, reply: FastifyReply) => {
+				reply.send({ enabled: true });
+			}
+		);
 
-		fastify.post("/api/v1/form", (request: FastifyRequest<{ Body: BodyType }>, reply: FastifyReply) => {
-			handleForm(request, reply);
-		});
+		fastify.post(
+			"/api/v1/form",
+			(
+				request: FastifyRequest<{ Body: BodyType }>,
+				reply: FastifyReply
+			) => {
+				handleForm(request, reply);
+			}
+		);
 	}
 };
 
 interface BodyType {
-    email: string;
-    commentType: string;
-    message: string;
-    "h-captcha-response": string;
+	email: string;
+	commentType: string;
+	message: string;
+	"h-captcha-response": string;
 }
 
-const handleForm = (request: FastifyRequest<{ Body: BodyType }>, reply: FastifyReply) => {
+const handleForm = (
+	request: FastifyRequest<{ Body: BodyType }>,
+	reply: FastifyReply
+) => {
 	const ip = getIp(request);
 
-	verify(
-		config.app.hcaptcha.secret,
-		request.body["h-captcha-response"]
-	)
+	verify(config.app.hcaptcha.secret, request.body["h-captcha-response"])
 		.then((data) => {
 			const hook = new Webhook(config.app.webhook);
 			if (data.success === true) {

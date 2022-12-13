@@ -1,7 +1,7 @@
 db:
-	url:
-		docker: mongodb://yourusername:yourpassword@segfaultapi-db:27017
-		local: mongodb://yourusername:yourpassword@0.0.0.0:27017
+    url:
+        docker: mongodb://yourusername:yourpassword@segfaultapi-db:27017
+        local: mongodb://yourusername:yourpassword@0.0.0.0:27017
 
 app:
     port: 6893

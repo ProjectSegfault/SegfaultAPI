@@ -4,20 +4,32 @@ import config from "../utils/config";
 
 const statusApi = async (fastify: FastifyInstance) => {
 	if (!config.app.state.status) {
-		fastify.get("/api/v1/status", (request: FastifyRequest, reply: FastifyReply) => {
-			reply.send("The status api is disabled.");
-		});
-		fastify.get("/api/v1/state/status", (request: FastifyRequest, reply: FastifyReply) => {
-			reply.send({ enabled: false });
-		});
+		fastify.get(
+			"/api/v1/status",
+			(request: FastifyRequest, reply: FastifyReply) => {
+				reply.send("The status api is disabled.");
+			}
+		);
+		fastify.get(
+			"/api/v1/state/status",
+			(request: FastifyRequest, reply: FastifyReply) => {
+				reply.send({ enabled: false });
+			}
+		);
 	} else {
-		fastify.get("/api/v1/status", (request: FastifyRequest, reply: FastifyReply) => {
-			setData(request, reply);
-		});
+		fastify.get(
+			"/api/v1/status",
+			(request: FastifyRequest, reply: FastifyReply) => {
+				setData(request, reply);
+			}
+		);
 
-		fastify.get("/api/v1/state/status", (request: FastifyRequest, reply: FastifyReply) => {
-			reply.send({ enabled: true });
-		});
+		fastify.get(
+			"/api/v1/state/status",
+			(request: FastifyRequest, reply: FastifyReply) => {
+				reply.send({ enabled: true });
+			}
+		);
 	}
 };
 
@@ -36,6 +48,6 @@ const setData = (request: FastifyRequest, reply: FastifyReply) => {
 	setInterval(updateMap, 30000);
 
 	reply.send(map.get("data"));
-}
+};
 
 export default statusApi;

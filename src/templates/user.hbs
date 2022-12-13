@@ -6,67 +6,54 @@
 		target="_blank"
 		class="col"
 	>
-		<input
-			type="text"
-			name="username"
-			placeholder="Your username"
-		/>
+		<input type="text" name="username" placeholder="Your username" />
 		<input type="password" name="password" placeholder="Your password" />
 		<button type="submit">Submit</button>
 	</form>
 
-    <h1>User login</h1>
-	<form
-		action="/api/v1/user/login"
-		method="POST"
-		target="_blank"
-		class="col"
-	>
-		<input
-			type="text"
-			name="username"
-			placeholder="Your username"
-		/>
+	<h1>User login</h1>
+	<form action="/api/v1/user/login" method="POST" target="_blank" class="col">
+		<input type="text" name="username" placeholder="Your username" />
 		<input type="password" name="password" placeholder="Your password" />
 		<button type="submit">Submit</button>
 	</form>
 
-    <h1>User delete</h1>
+	<h1>User delete</h1>
 	<form
 		action="/api/v1/user/delete"
 		method="POST"
 		target="_blank"
 		class="col"
 	>
-        {{#if isAdmin}}
-            <input
-                type="text"
-                name="username"
-                placeholder="Username to delete"
-            />
-        {{/if}}
+		{{#if isAdmin}}
+			<input
+				type="text"
+				name="username"
+				placeholder="Username to delete"
+			/>
+		{{/if}}
 		<button type="submit">Submit</button>
 	</form>
 
-    <h1>User change password</h1>
+	<h1>User change password</h1>
 	<form
 		action="/api/v1/user/changepassword"
 		method="POST"
 		target="_blank"
 		class="col"
 	>
-        {{#if isAdmin}}
-            <input
-                type="text"
-                name="username"
-                placeholder="Username"
-            />
-        {{/if}}
-        <input type="password" name="newpassword" placeholder="Your new password" />
+		{{#if isAdmin}}
+			<input type="text" name="username" placeholder="Username" />
+		{{/if}}
+		<input
+			type="password"
+			name="newpassword"
+			placeholder="Your new password"
+		/>
 		<button type="submit">Submit</button>
 	</form>
 
-    <h1>Create admin user</h1>
+	<h1>Create admin user</h1>
 	<form
 		action="/api/v1/user/createadmin"
 		method="POST"
@@ -77,25 +64,17 @@
 		<button type="submit">Submit</button>
 	</form>
 
-    <h1>User change username</h1>
+	<h1>User change username</h1>
 	<form
 		action="/api/v1/user/changeusername"
 		method="POST"
 		target="_blank"
 		class="col"
 	>
-        {{#if isAdmin}}
-            <input
-                type="text"
-                name="username"
-                placeholder="Username"
-            />
-        {{/if}}
-        <input
-            type="text"
-            name="newusername"
-            placeholder="New username"
-        />
+		{{#if isAdmin}}
+			<input type="text" name="username" placeholder="Username" />
+		{{/if}}
+		<input type="text" name="newusername" placeholder="New username" />
 		<button type="submit">Submit</button>
 	</form>
 </div>

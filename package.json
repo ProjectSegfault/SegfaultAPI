@@ -1,7 +1,7 @@
 {
 	"name": "segfaultapi",
 	"version": "1.0.0",
-	"description": "Web utilities and APIs for Project Segfault, written in TypeScript with Fastify.",
+	"description": "Web utilities and APIs for Project Segfault, written in TypeScript with Fastify and MongoDB.",
 	"scripts": {
 		"dev": "tsx watch src/index.ts",
 		"preview": "tsx src/index.ts",

@@ -2,7 +2,7 @@
 	"extends": "@tsconfig/node18-strictest-esm/tsconfig.json",
 	"exclude": ["node_modules", "dist"],
 	"include": ["src/**/*", "scripts/**/*"],
-    "compilerOptions": {
-        "noUnusedParameters": false
-    }
+	"compilerOptions": {
+		"noUnusedParameters": false
+	}
 }
