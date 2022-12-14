@@ -44,7 +44,8 @@ fastify.get("/", (request: FastifyRequest, reply: FastifyReply) => {
 		port: config.app.port,
 		title: "index",
 		announcementsEnabled: config.app.state.announcements,
-		formEnabled: config.app.state.form
+		formEnabled: config.app.state.form,
+		statusEnabled: config.app.state.status
 	});
 });
 
