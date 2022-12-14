@@ -12,6 +12,8 @@ COPY . .
 
 ENV NODE_ENV=production
 
+RUN pnpm build
+
 EXPOSE 6893
 
 CMD [ "pnpm", "preview" ]

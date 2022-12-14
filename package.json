@@ -4,7 +4,9 @@
 	"description": "Web utilities and APIs for Project Segfault, written in TypeScript with Fastify and MongoDB.",
 	"scripts": {
 		"dev": "tsx watch src/index.ts",
-		"preview": "tsx src/index.ts",
+		"build": "tsx scripts/build.ts",
+		"preview": "node src/main.js",
+		"preview:tsx": "tsx src/index.ts",
 		"format": "prettier --write .",
 		"check": "tsc --noEmit"
 	},
@@ -33,6 +35,7 @@
 		"@types/bcrypt": "^5.0.0",
 		"@types/node": "^18.11.9",
 		"@types/request-ip": "^0.0.37",
+		"esbuild": "^0.16.6",
 		"prettier": "^2.7.1",
 		"tsx": "^3.12.1",
 		"typescript": "^4.9.3"
