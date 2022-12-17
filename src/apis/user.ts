@@ -60,6 +60,18 @@ const userApi = (fastify: FastifyInstance) => {
 			changeUsername(request, reply);
 		}
 	);
+	fastify.post(
+		"/api/v1/user/banip",
+		(request: FastifyRequest<{ Body: BanIpType }>, reply: FastifyReply) => {
+			banIp(request, reply);
+		}
+	);
+	fastify.post(
+		"/api/v1/user/unbanip",
+		(request: FastifyRequest<{ Body: UnbanIpType }>, reply: FastifyReply) => {
+			unbanIp(request, reply);
+		}
+	);
 };
 
 interface BodyType {
@@ -325,5 +337,83 @@ const changeUsername = async (
 		reply.unauthorized("You need to be logged in to change your username.");
 	}
 };
+
+interface BanIpType {
+	ip: string;
+	reason: string;
+	bannedBy: string;
+}
+
+const BanIpTypeSchema = Joi.object({
+	ip: Joi.string().ip().required(),
+	reason: Joi.string().required(),
+	bannedBy: Joi.string().required()
+});
+
+const banIp = async (request: FastifyRequest<{ Body: BanIpType }>, reply: FastifyReply) => {
+	if (userMap.get("isAdmin")) {
+		if (BanIpTypeSchema.validate(request.body).error) {
+			reply.badRequest(`${BanIpTypeSchema.validate(request.body).error}`);
+		} else {
+			const collection = db.collection("banned");
+
+			if (await collection.findOne({ ip: request.body.ip })) {
+				reply.conflict("IP already banned.");
+			} else {
+				await collection.insertOne({ ...request.body, time: Math.floor(Date.now() / 1000) }).then((result) => {
+					if (result.insertedId !== undefined) {
+						reply.send("IP banned.");
+					} else {
+						reply.internalServerError("An error occurred while writing to MongoDB.");
+					}
+				});
+			}
+		}
+	} else {
+		reply.unauthorized("You need to be an admin to ban IPs.");
+	}
+}
+
+interface UnbanIpType {
+	ip: string;
+	reason: string;
+	unbannedBy: string;
+}
+
+const UnbanIpTypeSchema = Joi.object({
+	ip: Joi.string().ip().required(),
+	reason: Joi.string().required(),
+	unbannedBy: Joi.string().required()
+});
+
+const unbanIp = async (request: FastifyRequest<{ Body: UnbanIpType }>, reply: FastifyReply) => {
+	if (userMap.get("isAdmin")) {
+		if (UnbanIpTypeSchema.validate(request.body).error) {
+			reply.badRequest(`${UnbanIpTypeSchema.validate(request.body).error}`);
+		} else {
+			const collection = db.collection("blocklist");
+
+			const unbannedCollection = db.collection("unbanned");
+
+			await collection.deleteOne({ ip: request.body.ip }).then((result) => {
+				if (result.deletedCount === 1) {
+					reply.send("IP unbanned.");
+				} else {
+					reply.notFound("IP is not banned.");
+				}
+			});
+
+			await unbannedCollection.insertOne({ ...request.body, time: Math.floor(Date.now() / 1000) }).then((result) => {
+				if (result.insertedId !== undefined) {
+					reply.send("Wrote unban to unbanned database.");
+				} else {
+					reply.internalServerError("An error occurred while writing to MongoDB.");
+				}
+			});
+		}
+	} else {
+		reply.unauthorized("You need to be an admin to ban IPs.");
+	}
+}
 
 export default userApi;

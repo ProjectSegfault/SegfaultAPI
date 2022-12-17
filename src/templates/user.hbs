@@ -77,4 +77,30 @@
 		<input type="text" name="newusername" placeholder="New username" />
 		<button type="submit">Submit</button>
 	</form>
+
+	<h1>Ban IP</h1>
+	<form
+		action="/api/v1/user/banip"
+		method="POST"
+		target="_blank"
+		class="col"
+	>
+		<input type="text" name="ip" placeholder="IP to ban" />
+		<input type="text" name="reason" placeholder="Reason for ban">
+		<input type="text" name="bannedBy" placeholder="Banned by">
+		<button type="submit">Submit</button>
+	</form>
+
+	<h1>Unban IP</h1>
+	<form
+		action="/api/v1/user/unbanip"
+		method="POST"
+		target="_blank"
+		class="col"
+	>
+		<input type="text" name="ip" placeholder="IP to unban" />
+		<input type="text" name="reason" placeholder="Reason for unban">
+		<input type="text" name="unbannedBy" placeholder="Unbanned by">
+		<button type="submit">Submit</button>
+	</form>
 </div>

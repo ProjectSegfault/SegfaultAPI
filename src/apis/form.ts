@@ -56,7 +56,7 @@ interface BodyType {
 	commentType: string;
 	message: string;
 	"h-captcha-response": string;
-	"g-recaptcha-response": string;
+	"g-recaptcha-response"?: string;
 }
 
 const BodyTypeSchema = Joi.object({
@@ -64,7 +64,7 @@ const BodyTypeSchema = Joi.object({
 	commentType: Joi.string().required(),
 	message: Joi.string().required(),
 	"h-captcha-response": Joi.string().required(),
-	"g-recaptcha-response": Joi.string().required()
+	"g-recaptcha-response": Joi.string().optional().allow("")
 });
 
 const handleForm = (
@@ -72,7 +72,6 @@ const handleForm = (
 	reply: FastifyReply
 ) => {
 	if (BodyTypeSchema.validate(request.body).error) {
-		console.log(request.body)
 		reply.badRequest(
 			`${BodyTypeSchema.validate(request.body).error}`
 		);
@@ -82,7 +81,7 @@ const handleForm = (
 		verify(config.app.hcaptcha.secret, request.body["h-captcha-response"])
 			.then((data) => {
 				const hook = new Webhook(config.app.webhook);
-				if (data.success === true) {
+				if (data.success) {
 					const embed = new MessageBuilder()
 						.setAuthor(
 							`${ip}, ${request.body.email}, https://abuseipdb.com/check/${ip}`
@@ -92,13 +91,15 @@ const handleForm = (
 						.setTimestamp();
 
 					reply.send(
-						"Thanks for your message, and thanks for doing the captcha!\nPlease ignore how different this page looks to the page you were on earlier. I'll figure it out eventually!"
+						"Thanks for your message, we will get back to you as soon as possible."
 					);
 
 					hook.send(embed);
 				} else {
-					reply.send(
-						"Seems like captcha failed, you didn't complete the captcha or you are a bot. Please try again.\nPlease note that your IP has been logged in our systems for manual review to check if you're an abusive user. If you're seen as abusive, you will be blacklisted.\nYour message has not been sent."
+					(data);
+					reply.unauthorized(
+						"Captcha failed or expired, please try again. If this keeps happening, assume the captcha is broken and contact us on Matrix." +
+						" Error: " + data["error-codes"]
 					);
 
 					hook.send(

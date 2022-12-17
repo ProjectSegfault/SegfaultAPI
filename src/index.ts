@@ -13,7 +13,8 @@ import log from "./utils/logUtil";
 import { join, dirname } from "path";
 import { fileURLToPath } from "url";
 import config from "./utils/config";
-import { initializeDb, dbCleanUp } from "./utils/db";
+import { initializeDb, dbCleanUp, db } from "./utils/db";
+import getIp from "./utils/getIp";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 
@@ -38,6 +39,14 @@ fastify.register(pointOfView, {
 	root: join(__dirname, "templates"),
 	layout: "layout",
 	viewExt: "hbs"
+});
+
+fastify.addHook("preHandler", async (request: FastifyRequest, reply: FastifyReply) => {
+	const collection = db.collection("banned");
+
+	if (getIp(request) === await collection.findOne({ ip: getIp(request) }).then((doc) => doc?.["ip"])) {
+		reply.unauthorized("You are banned.");
+	}
 });
 
 fastify.get("/", (request: FastifyRequest, reply: FastifyReply) => {
