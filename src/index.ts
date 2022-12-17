@@ -20,7 +20,7 @@ const __dirname = dirname(fileURLToPath(import.meta.url));
 let isProd = process.env["NODE_ENV"] === "production" ? true : false;
 
 const fastify: FastifyInstance = Fastify({
-	logger: isProd ? false : true
+	logger: true
 });
 
 fastify.register(formBodyPlugin);
