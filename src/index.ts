@@ -13,6 +13,7 @@ import log from "./utils/logUtil";
 import { join, dirname } from "path";
 import { fileURLToPath } from "url";
 import config from "./utils/config";
+import { initializeDb, dbCleanUp } from "./utils/db";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 
@@ -49,6 +50,8 @@ fastify.get("/", (request: FastifyRequest, reply: FastifyReply) => {
 	});
 });
 
+initializeDb();
+
 announcementsApi(fastify);
 formApi(fastify);
 statusApi(fastify);
@@ -64,3 +67,13 @@ fastify.listen(
 		log("Listening on " + address);
 	}
 );
+
+process.on("SIGINT", () => {
+	dbCleanUp();
+	process.exit(0);
+});
+
+process.on("SIGTERM", () => {
+	dbCleanUp();
+	process.exit(0);
+});

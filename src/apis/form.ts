@@ -4,6 +4,7 @@ import log from "../utils/logUtil";
 import getIp from "../utils/getIp";
 import type { FastifyInstance, FastifyReply, FastifyRequest } from "fastify";
 import config from "../utils/config";
+import Joi from "joi";
 
 const formApi = (fastify: FastifyInstance) => {
 	if (!config.app.state.form) {
@@ -55,42 +56,58 @@ interface BodyType {
 	commentType: string;
 	message: string;
 	"h-captcha-response": string;
+	"g-recaptcha-response": string;
 }
+
+const BodyTypeSchema = Joi.object({
+	email: Joi.string().email().required(),
+	commentType: Joi.string().required(),
+	message: Joi.string().required(),
+	"h-captcha-response": Joi.string().required(),
+	"g-recaptcha-response": Joi.string().required()
+});
 
 const handleForm = (
 	request: FastifyRequest<{ Body: BodyType }>,
 	reply: FastifyReply
 ) => {
-	const ip = getIp(request);
+	if (BodyTypeSchema.validate(request.body).error) {
+		console.log(request.body)
+		reply.badRequest(
+			`${BodyTypeSchema.validate(request.body).error}`
+		);
+	} else {
+		const ip = getIp(request);
 
-	verify(config.app.hcaptcha.secret, request.body["h-captcha-response"])
-		.then((data) => {
-			const hook = new Webhook(config.app.webhook);
-			if (data.success === true) {
-				const embed = new MessageBuilder()
-					.setAuthor(
-						`${ip}, ${request.body.email}, https://abuseipdb.com/check/${ip}`
-					)
-					.addField("Comment type", request.body.commentType, true)
-					.addField("Message", request.body.message)
-					.setTimestamp();
+		verify(config.app.hcaptcha.secret, request.body["h-captcha-response"])
+			.then((data) => {
+				const hook = new Webhook(config.app.webhook);
+				if (data.success === true) {
+					const embed = new MessageBuilder()
+						.setAuthor(
+							`${ip}, ${request.body.email}, https://abuseipdb.com/check/${ip}`
+						)
+						.addField("Comment type", request.body.commentType, true)
+						.addField("Message", request.body.message)
+						.setTimestamp();
 
-				reply.send(
-					"Thanks for your message, and thanks for doing the captcha!\nPlease ignore how different this page looks to the page you were on earlier. I'll figure it out eventually!"
-				);
+					reply.send(
+						"Thanks for your message, and thanks for doing the captcha!\nPlease ignore how different this page looks to the page you were on earlier. I'll figure it out eventually!"
+					);
 
-				hook.send(embed);
-			} else {
-				reply.send(
-					"Seems like captcha failed, you didn't complete the captcha or you are a bot. Please try again.\nPlease note that your IP has been logged in our systems for manual review to check if you're an abusive user. If you're seen as abusive, you will be blacklisted.\nYour message has not been sent."
-				);
+					hook.send(embed);
+				} else {
+					reply.send(
+						"Seems like captcha failed, you didn't complete the captcha or you are a bot. Please try again.\nPlease note that your IP has been logged in our systems for manual review to check if you're an abusive user. If you're seen as abusive, you will be blacklisted.\nYour message has not been sent."
+					);
 
-				hook.send(
-					`IP: ${ip}, https://abuseipdb.com/check/${ip}\nfailed to complete the captcha.`
-				);
-			}
-		})
-		.catch(console.error);
+					hook.send(
+						`IP: ${ip}, https://abuseipdb.com/check/${ip}\nfailed to complete the captcha.`
+					);
+				}
+			})
+			.catch(console.error);
+	}
 };
 
 export default formApi;

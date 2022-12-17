@@ -1,15 +1,9 @@
 import type { FastifyInstance, FastifyReply, FastifyRequest } from "fastify";
 import log from "../utils/logUtil";
-import { db, initializeDb, closeDb } from "../utils/db";
+import { db } from "../utils/db";
 import { userMap } from "./user";
 import config from "../utils/config";
-
-interface BodyType {
-	title: string;
-	severity: string;
-	author: string;
-	link?: string;
-}
+import Joi from "joi";
 
 const announcementsApi = (fastify: FastifyInstance) => {
 	if (!config.app.state.announcements) {
@@ -78,30 +72,38 @@ const announcementsApi = (fastify: FastifyInstance) => {
 	}
 };
 
+interface BodyType {
+	title: string;
+	severity: string;
+	author: string;
+	link?: string;
+}
+
+const BodyTypeSchema = Joi.object({
+	title: Joi.string().required(),
+	severity: Joi.string().required(),
+	author: Joi.string().required(),
+	link: Joi.string().optional().allow("")
+});
+
 const setAnnouncements = async (
 	request: FastifyRequest<{ Body: BodyType }>,
 	reply: FastifyReply
 ) => {
-	initializeDb();
 
 	if (userMap.get("isLoggedIn")) {
 		if (
-			request.body.title === "" ||
-			request.body.severity === "" ||
-			request.body.author === ""
+			BodyTypeSchema.validate(request.body).error
 		) {
 			reply.badRequest(
-				"Your request is not proper. Please add a title, severity and author."
+				`${BodyTypeSchema.validate(request.body).error}`
 			);
 		} else {
 			const collection = db.collection("announcements");
 
 			const now = Math.floor(Date.now() / 1000);
 			const data = {
-				title: request.body.title,
-				link: request.body.link,
-				severity: request.body.severity,
-				author: request.body.author,
+				...request.body,
 				created: now
 			};
 
@@ -109,43 +111,37 @@ const setAnnouncements = async (
 
 			await collection.insertOne(data);
 
-			reply.status(200).send("Your announcement has been posted.");
+			reply.send("Your announcement has been posted.");
 		}
 	} else {
 		reply.unauthorized(
 			"You need to log in in order to post an announcement."
 		);
 	}
-
-	closeDb();
 };
 
 const deleteAnnouncements = async (
 	request: FastifyRequest<{ Body: BodyType }>,
 	reply: FastifyReply
 ) => {
-	initializeDb();
 
 	if (userMap.get("isLoggedIn")) {
 		const collection = db.collection("announcements");
 
 		await collection.deleteMany({});
 
-		reply.status(200).send("Your announcement has been deleted.");
+		reply.send("Your announcement has been deleted.");
 	} else {
 		reply.unauthorized(
 			"You need to log in in order to post an announcement."
 		);
 	}
-
-	closeDb();
 };
 
 const readAnnouncements = async (
 	request: FastifyRequest,
 	reply: FastifyReply
 ) => {
-	initializeDb();
 
 	const collection = db.collection("announcements");
 
@@ -159,8 +155,6 @@ const readAnnouncements = async (
 				reply.send(data[0]);
 			}
 		});
-
-	closeDb();
 };
 
 export default announcementsApi;
