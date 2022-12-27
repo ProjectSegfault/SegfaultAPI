@@ -10,10 +10,18 @@ export const isAdmin = userMap.get("isAdmin");
 const userApi = (fastify: FastifyInstance) => {
 	fastify.get(
 		"/tools/user",
-		(request: FastifyRequest, reply: FastifyReply) => {
+		(_request: FastifyRequest, reply: FastifyReply) => {
+			const collection = db.collection("users");
+
 			reply.view("user", {
 				title: "user command centre",
-				isAdmin: userMap.get("isAdmin")
+				isAdmin: userMap.get("isAdmin"),
+				isLoggedIn: userMap.get("isLoggedIn"),
+				hasAdmin:
+					collection.findOne({ username: "admin" }) !== null
+						? true
+						: false,
+				isUser: true
 			});
 		}
 	);
@@ -28,6 +36,12 @@ const userApi = (fastify: FastifyInstance) => {
 		"/api/v1/user/login",
 		(request: FastifyRequest<{ Body: BodyType }>, reply: FastifyReply) => {
 			userLogin(request, reply);
+		}
+	);
+	fastify.post(
+		"/api/v1/user/logout",
+		(request: FastifyRequest, reply: FastifyReply) => {
+			userLogout(request, reply);
 		}
 	);
 	fastify.post(
@@ -68,7 +82,10 @@ const userApi = (fastify: FastifyInstance) => {
 	);
 	fastify.post(
 		"/api/v1/user/unbanip",
-		(request: FastifyRequest<{ Body: UnbanIpType }>, reply: FastifyReply) => {
+		(
+			request: FastifyRequest<{ Body: UnbanIpType }>,
+			reply: FastifyReply
+		) => {
 			unbanIp(request, reply);
 		}
 	);
@@ -88,7 +105,6 @@ const userSignup = async (
 	request: FastifyRequest<{ Body: BodyType }>,
 	reply: FastifyReply
 ) => {
-	
 	if (userMap.get("isAdmin")) {
 		if (BodyTypeSchema.validate(request.body).error) {
 			reply.badRequest(`${BodyTypeSchema.validate(request.body).error}`);
@@ -99,7 +115,7 @@ const userSignup = async (
 				username: request.body.username,
 				password: await bcrypt.hash(request.body.password, 10)
 			};
-	
+
 			if (await collection.findOne({ username: request.body.username })) {
 				reply.conflict("User already exists.");
 			} else {
@@ -107,7 +123,9 @@ const userSignup = async (
 					if (result.insertedId !== undefined) {
 						reply.send("User created.");
 					} else {
-						reply.internalServerError("An error occurred while writing to MongoDB.");
+						reply.internalServerError(
+							"An error occurred while writing to MongoDB."
+						);
 					}
 				});
 			}
@@ -121,7 +139,6 @@ const userLogin = async (
 	request: FastifyRequest<{ Body: BodyType }>,
 	reply: FastifyReply
 ) => {
-	
 	if (BodyTypeSchema.validate(request.body).error) {
 		reply.badRequest(`${BodyTypeSchema.validate(request.body).error}`);
 	} else {
@@ -142,7 +159,9 @@ const userLogin = async (
 				data[0]?.["password"],
 				(err, result) => {
 					if (err) {
-						reply.internalServerError("An error occurred with bcrypt. " + err);
+						reply.internalServerError(
+							"An error occurred with bcrypt. " + err
+						);
 					} else {
 						if (result) {
 							userMap.set("isLoggedIn", true);
@@ -163,12 +182,21 @@ const userLogin = async (
 	}
 };
 
+const userLogout = async (_request: FastifyRequest, reply: FastifyReply) => {
+	if (userMap.get("isLoggedIn")) {
+		userMap.set("isLoggedIn", false);
+		userMap.set("username", "");
+		userMap.set("isAdmin", false);
+		reply.send("User logged out.");
+	} else {
+		reply.unauthorized("You are not logged in.");
+	}
+};
+
 const userDelete = async (
 	request: FastifyRequest<{ Body: BodyType }>,
 	reply: FastifyReply
 ) => {
-	
-
 	if (userMap.get("isLoggedIn")) {
 		if (BodyTypeSchema.validate(request.body).error) {
 			reply.badRequest(`${BodyTypeSchema.validate(request.body).error}`);
@@ -206,7 +234,6 @@ const userChangePassword = async (
 	request: FastifyRequest<{ Body: ChangePasswordType }>,
 	reply: FastifyReply
 ) => {
-	
 	if (userMap.get("isLoggedIn")) {
 		if (ChangePasswordTypeSchema.validate(request.body).error) {
 			reply.badRequest(
@@ -216,7 +243,9 @@ const userChangePassword = async (
 			const collection = db.collection("users");
 
 			const data = {
-				username: isAdmin ? request.body.username : userMap.get("username"),
+				username: isAdmin
+					? request.body.username
+					: userMap.get("username"),
 				password: await bcrypt.hash(request.body.newpassword, 10)
 			};
 
@@ -255,7 +284,9 @@ const createAdmin = async (
 	reply: FastifyReply
 ) => {
 	if (CreateAdminTypeSchema.validate(request.body).error) {
-		reply.badRequest(`${CreateAdminTypeSchema.validate(request.body).error}`);
+		reply.badRequest(
+			`${CreateAdminTypeSchema.validate(request.body).error}`
+		);
 	} else {
 		const collection = db.collection("users");
 
@@ -271,7 +302,9 @@ const createAdmin = async (
 				if (result.insertedId !== undefined) {
 					reply.send("Admin created.");
 				} else {
-					reply.internalServerError("An error occurred while writing to MongoDB.");
+					reply.internalServerError(
+						"An error occurred while writing to MongoDB."
+					);
 				}
 			});
 		}
@@ -292,7 +325,6 @@ const changeUsername = async (
 	request: FastifyRequest<{ Body: ChangeUserNameType }>,
 	reply: FastifyReply
 ) => {
-
 	if (userMap.get("isLoggedIn")) {
 		if (ChangeUserNameTypeSchema.validate(request.body).error) {
 			reply.badRequest(
@@ -312,7 +344,9 @@ const changeUsername = async (
 					.then((data) => data?.["password"])
 			};
 
-			if (await collection.findOne({ username: request.body.newusername })) {
+			if (
+				await collection.findOne({ username: request.body.newusername })
+			) {
 				reply.conflict("Username already taken.");
 			} else {
 				await collection
@@ -350,7 +384,10 @@ const BanIpTypeSchema = Joi.object({
 	bannedBy: Joi.string().required()
 });
 
-const banIp = async (request: FastifyRequest<{ Body: BanIpType }>, reply: FastifyReply) => {
+const banIp = async (
+	request: FastifyRequest<{ Body: BanIpType }>,
+	reply: FastifyReply
+) => {
 	if (userMap.get("isAdmin")) {
 		if (BanIpTypeSchema.validate(request.body).error) {
 			reply.badRequest(`${BanIpTypeSchema.validate(request.body).error}`);
@@ -360,19 +397,26 @@ const banIp = async (request: FastifyRequest<{ Body: BanIpType }>, reply: Fastif
 			if (await collection.findOne({ ip: request.body.ip })) {
 				reply.conflict("IP already banned.");
 			} else {
-				await collection.insertOne({ ...request.body, time: Math.floor(Date.now() / 1000) }).then((result) => {
-					if (result.insertedId !== undefined) {
-						reply.send("IP banned.");
-					} else {
-						reply.internalServerError("An error occurred while writing to MongoDB.");
-					}
-				});
+				await collection
+					.insertOne({
+						...request.body,
+						time: Math.floor(Date.now() / 1000)
+					})
+					.then((result) => {
+						if (result.insertedId !== undefined) {
+							reply.send("IP banned.");
+						} else {
+							reply.internalServerError(
+								"An error occurred while writing to MongoDB."
+							);
+						}
+					});
 			}
 		}
 	} else {
 		reply.unauthorized("You need to be an admin to ban IPs.");
 	}
-}
+};
 
 interface UnbanIpType {
 	ip: string;
@@ -386,34 +430,46 @@ const UnbanIpTypeSchema = Joi.object({
 	unbannedBy: Joi.string().required()
 });
 
-const unbanIp = async (request: FastifyRequest<{ Body: UnbanIpType }>, reply: FastifyReply) => {
+const unbanIp = async (
+	request: FastifyRequest<{ Body: UnbanIpType }>,
+	reply: FastifyReply
+) => {
 	if (userMap.get("isAdmin")) {
 		if (UnbanIpTypeSchema.validate(request.body).error) {
-			reply.badRequest(`${UnbanIpTypeSchema.validate(request.body).error}`);
+			reply.badRequest(
+				`${UnbanIpTypeSchema.validate(request.body).error}`
+			);
 		} else {
-			const collection = db.collection("blocklist");
+			const collection = db.collection("banned");
 
 			const unbannedCollection = db.collection("unbanned");
 
-			await collection.deleteOne({ ip: request.body.ip }).then((result) => {
-				if (result.deletedCount === 1) {
-					reply.send("IP unbanned.");
-				} else {
-					reply.notFound("IP is not banned.");
-				}
-			});
-
-			await unbannedCollection.insertOne({ ...request.body, time: Math.floor(Date.now() / 1000) }).then((result) => {
-				if (result.insertedId !== undefined) {
-					reply.send("Wrote unban to unbanned database.");
-				} else {
-					reply.internalServerError("An error occurred while writing to MongoDB.");
-				}
-			});
+			await collection
+				.deleteOne({ ip: request.body.ip })
+				.then(async (result) => {
+					if (result.deletedCount === 1) {
+						await unbannedCollection
+							.insertOne({
+								...request.body,
+								time: Math.floor(Date.now() / 1000)
+							})
+							.then((result) => {
+								if (result.insertedId !== undefined) {
+									reply.send("IP unbanned.");
+								} else {
+									reply.internalServerError(
+										"An error occurred while writing to MongoDB."
+									);
+								}
+							});
+					} else {
+						reply.notFound("IP is not banned.");
+					}
+				});
 		}
 	} else {
 		reply.unauthorized("You need to be an admin to ban IPs.");
 	}
-}
+};
 
 export default userApi;

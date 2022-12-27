@@ -6,13 +6,13 @@ const statusApi = async (fastify: FastifyInstance) => {
 	if (!config.app.state.status) {
 		fastify.get(
 			"/api/v1/status",
-			(request: FastifyRequest, reply: FastifyReply) => {
+			(_request: FastifyRequest, reply: FastifyReply) => {
 				reply.send("The status api is disabled.");
 			}
 		);
 		fastify.get(
 			"/api/v1/state/status",
-			(request: FastifyRequest, reply: FastifyReply) => {
+			(_request: FastifyRequest, reply: FastifyReply) => {
 				reply.send({ enabled: false });
 			}
 		);
@@ -26,14 +26,14 @@ const statusApi = async (fastify: FastifyInstance) => {
 
 		fastify.get(
 			"/api/v1/state/status",
-			(request: FastifyRequest, reply: FastifyReply) => {
+			(_request: FastifyRequest, reply: FastifyReply) => {
 				reply.send({ enabled: true });
 			}
 		);
 	}
 };
 
-const setData = (request: FastifyRequest, reply: FastifyReply) => {
+const setData = (_request: FastifyRequest, reply: FastifyReply) => {
 	const map = new Map();
 
 	const updateMap = () => {

@@ -8,7 +8,8 @@ import Handlebars from "handlebars";
 import statusApi from "./apis/status";
 import announcementsApi from "./apis/announcements";
 import formApi from "./apis/form";
-import userApi from "./apis/user";
+import userApi, { userMap } from "./apis/user";
+import blogApi from "./apis/blog";
 import log from "./utils/logUtil";
 import { join, dirname } from "path";
 import { fileURLToPath } from "url";
@@ -38,24 +39,40 @@ fastify.register(pointOfView, {
 	},
 	root: join(__dirname, "templates"),
 	layout: "layout",
+	defaultContext: {
+		isIndex: false,
+		isLoggedIn: userMap.get("isLoggedIn"),
+		isUser: false
+	},
 	viewExt: "hbs"
 });
 
-fastify.addHook("preHandler", async (request: FastifyRequest, reply: FastifyReply) => {
-	const collection = db.collection("banned");
+fastify.addHook(
+	"preHandler",
+	async (request: FastifyRequest, reply: FastifyReply) => {
+		const collection = db.collection("banned");
 
-	if (getIp(request) === await collection.findOne({ ip: getIp(request) }).then((doc) => doc?.["ip"])) {
-		reply.unauthorized("You are banned.");
+		if (
+			getIp(request) ===
+			(await collection
+				.findOne({ ip: getIp(request) })
+				.then((doc) => doc?.["ip"]))
+		) {
+			reply.unauthorized("You are banned.");
+		}
 	}
-});
+);
 
-fastify.get("/", (request: FastifyRequest, reply: FastifyReply) => {
+fastify.get("/", (_request: FastifyRequest, reply: FastifyReply) => {
 	reply.view("index", {
 		port: config.app.port,
 		title: "index",
 		announcementsEnabled: config.app.state.announcements,
 		formEnabled: config.app.state.form,
-		statusEnabled: config.app.state.status
+		statusEnabled: config.app.state.status,
+		blogEnabled: config.app.state.blog,
+		isIndex: true,
+		env: isProd ? "production" : "development"
 	});
 });
 
@@ -65,6 +82,7 @@ announcementsApi(fastify);
 formApi(fastify);
 statusApi(fastify);
 userApi(fastify);
+blogApi(fastify);
 
 fastify.listen(
 	{ port: config.app.port, host: isProd ? "0.0.0.0" : "localhost" },

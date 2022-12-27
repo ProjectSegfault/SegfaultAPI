@@ -5,6 +5,8 @@
 	<span>Running on port {{port}}</span>
 	-
 	<a href="https://github.com/ProjectSegfault/SegfaultAPI">GitHub</a>
+	-
+	<span>Environment: {{env}}</span>
 </h4>
 <h2>Current APIs:</h2>
 <div class="col">
@@ -36,6 +38,23 @@
 		</div>
 	{{/if}}
 
+	{{#if blogEnabled}}
+		<div class="col">
+			<h3>Blog</h3>
+			<a href="/api/v1/blog">Blog posts</a>
+			<a href="/api/v1/blog/tags">Blog tags</a>
+			<div>/api/v1/blog/tags/TAG - Posts with tag</div>
+			<a href="/api/v1/blog/authors">Blog authors</a>
+			<div>/api/v1/blog/tags/AUTHOR - Posts from author</div>
+			<div>/api/v1/blog/tags/TITLE - Post with this title</div>
+			<a href="/api/v1/blog/add">Add post (POST)</a>
+			<a href="/api/v1/blog/delete">Delete post (POST)</a>
+			<a href="/api/v1/blog/edit">Edit post (POST)</a>
+			<a href="/tools/blog">Blog web configuration tool</a>
+			<a href="/api/v1/state/blog">Blog state api</a>
+		</div>
+	{{/if}}
+
 	<div class="col">
 		<h3>User</h3>
 		<a href="/api/v1/user/signup">Signup (POST)</a>
@@ -44,10 +63,8 @@
 		<a href="/api/v1/user/changepassword">Change password (POST)</a>
 		<a href="/api/v1/user/createadmin">Create admin user (POST)</a>
 		<a href="/api/v1/user/changeusername">Change username (POST)</a>
+		<a href="/api/v1/user/banip">Ban IP (POST)</a>
+		<a href="/api/v1/user/unbanip">Unban IP (POST)</a>
 		<a href="/tools/user">User web configuration tool</a>
 	</div>
 </div>
-
-<style>
-	.back-btn { display: none; }
-</style>

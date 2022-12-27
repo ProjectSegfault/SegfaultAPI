@@ -6,10 +6,11 @@ db:
 app:
     port: 6893
     hcaptcha:
-        secret: yourhcaptchasecret
+        secret: "yourhcaptchasecret" # must be in quotes
         sitekey: yourhcaptchasitekey
     webhook: yourdiscordwebhookurl
     state:
         announcements: true
         form: true
         status: true
+        blog: true

@@ -21,6 +21,7 @@ interface Config {
 			announcements: boolean;
 			form: boolean;
 			status: boolean;
+			blog: boolean;
 		};
 	};
 }

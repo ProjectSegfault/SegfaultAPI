@@ -1,0 +1,53 @@
+<h1>Add post</h1>
+
+<form action="/api/v1/blog/add" method="POST" class="col" target="_blank">
+	<input type="text" name="title" placeholder="Title" required />
+	<textarea
+		name="content"
+		placeholder="Content"
+		rows="4"
+		cols="25"
+		required
+	></textarea>
+	<input type="text" name="tags" placeholder="Tags" />
+	<input type="text" name="author" placeholder="Author" required />
+	<button type="submit">Submit</button>
+</form>
+
+<h1>Delete post</h1>
+
+<form action="/api/v1/blog/delete" method="POST" class="col" target="_blank">
+	<select name="title" required>
+		{{#each postTitles}}
+			<option value={{this}}>{{this}}</option>
+		{{/each}}
+	</select>
+	<button type="submit">Submit</button>
+</form>
+
+<h1>Edit post</h1>
+
+<form action="/api/v1/blog/edit" method="POST" class="col" target="_blank">
+	<select name="title" required>
+		<option disabled>Post title</option>
+		{{#each postTitles}}
+			<option value="{{this}}">{{this}}</option>
+		{{/each}}
+	</select>
+	<select name="area" required>
+		<option disabled>Area to change</option>
+		<option value="title">Title</option>
+		<option value="content">Content</option>
+		<option value="tags">Tags</option>
+	</select>
+	<input type="text" name="newTitle" placeholder="New title" />
+	<textarea
+		name="content"
+		placeholder="New content"
+		rows="4"
+		cols="25"
+		required
+	></textarea>
+	<input type="text" name="tags" placeholder="New tags" />
+	<button type="submit">Submit</button>
+</form>

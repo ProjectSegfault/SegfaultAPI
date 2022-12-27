@@ -13,14 +13,14 @@ export const db = mongoClient.db(mongoName);
 
 export const initializeDb = async () => {
 	await mongoClient
-	.connect()
-	.then(() => {
-		log("Connected to MongoDB", "info");
-	})
-	.catch((err) => {
-		log("Error connecting to MongoDB", "error");
-		log(err, "error");
-	});
+		.connect()
+		.then(() => {
+			log("Connected to MongoDB", "info");
+		})
+		.catch((err) => {
+			log("Error connecting to MongoDB", "error");
+			log(err, "error");
+		});
 };
 
 const closeDb = async () => {
@@ -37,4 +37,4 @@ const closeDb = async () => {
 
 export const dbCleanUp = () => {
 	closeDb();
-}
+};

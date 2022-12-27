@@ -8,11 +8,38 @@
 			font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
 			color-scheme: dark; } a { color: #00d4aa; text-decoration:
 			underline; } .col { display: flex; flex-direction: column; gap:
-			0.5rem; width: fit-content; }
+			0.5rem; width: fit-content; } input, button, select, textarea {
+			padding: 0.5rem; border-radius: 0.5rem; border: none;
+			background-color: #333333; color: #dddddd; outline: none; } button,
+			input[type="submit"], select { cursor: pointer; }
 		</style>
 	</head>
 	<body>
-		<h1 class="back-btn"><a href="/">Back</a></h1>
+		{{#unless isIndex}}
+			<h1 class="back-btn"><a href="/">Back</a></h1>
+		{{/unless}}
+
+		{{#unless isUser}}
+			<form
+				action="/api/v1/user/login"
+				method="POST"
+				target="_blank"
+				class="col"
+				style="background-color: #222222; padding: 1rem; border-radius: 0.5rem;"
+			>
+				<input
+					type="text"
+					name="username"
+					placeholder="Your username"
+				/>
+				<input
+					type="password"
+					name="password"
+					placeholder="Your password"
+				/>
+				<button type="submit">Login</button>
+			</form>
+		{{/unless}}
 
 		{{{body}}}
 	</body>

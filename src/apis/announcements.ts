@@ -10,28 +10,28 @@ const announcementsApi = (fastify: FastifyInstance) => {
 		log("The announcements api is disabled.", "warning");
 		fastify.get(
 			"/tools/announcements",
-			(request: FastifyRequest, reply: FastifyReply) => {
+			(_request: FastifyRequest, reply: FastifyReply) => {
 				reply.send("The announcements api is disabled.");
 			}
 		);
 
 		fastify.get(
 			"/api/v1/state/announcements",
-			(request: FastifyRequest, reply: FastifyReply) => {
+			(_request: FastifyRequest, reply: FastifyReply) => {
 				reply.send({ enabled: false });
 			}
 		);
 
 		fastify.get(
 			"/api/v1/announcements",
-			(request: FastifyRequest, reply: FastifyReply) => {
+			(_request: FastifyRequest, reply: FastifyReply) => {
 				reply.send("The announcements api is disabled.");
 			}
 		);
 	} else {
 		fastify.get(
 			"/tools/announcements",
-			(request: FastifyRequest, reply: FastifyReply) => {
+			(_request: FastifyRequest, reply: FastifyReply) => {
 				reply.view("announcements", {
 					title: "announcement command centre"
 				});
@@ -40,7 +40,7 @@ const announcementsApi = (fastify: FastifyInstance) => {
 
 		fastify.get(
 			"/api/v1/state/announcements",
-			(request: FastifyRequest, reply: FastifyReply) => {
+			(_request: FastifyRequest, reply: FastifyReply) => {
 				reply.send({ enabled: true });
 			}
 		);
@@ -90,14 +90,9 @@ const setAnnouncements = async (
 	request: FastifyRequest<{ Body: BodyType }>,
 	reply: FastifyReply
 ) => {
-
 	if (userMap.get("isLoggedIn")) {
-		if (
-			BodyTypeSchema.validate(request.body).error
-		) {
-			reply.badRequest(
-				`${BodyTypeSchema.validate(request.body).error}`
-			);
+		if (BodyTypeSchema.validate(request.body).error) {
+			reply.badRequest(`${BodyTypeSchema.validate(request.body).error}`);
 		} else {
 			const collection = db.collection("announcements");
 
@@ -121,10 +116,9 @@ const setAnnouncements = async (
 };
 
 const deleteAnnouncements = async (
-	request: FastifyRequest<{ Body: BodyType }>,
+	_request: FastifyRequest<{ Body: BodyType }>,
 	reply: FastifyReply
 ) => {
-
 	if (userMap.get("isLoggedIn")) {
 		const collection = db.collection("announcements");
 
@@ -139,10 +133,9 @@ const deleteAnnouncements = async (
 };
 
 const readAnnouncements = async (
-	request: FastifyRequest,
+	_request: FastifyRequest,
 	reply: FastifyReply
 ) => {
-
 	const collection = db.collection("announcements");
 
 	await collection
