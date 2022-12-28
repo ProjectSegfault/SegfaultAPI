@@ -13,4 +13,4 @@ app:
         announcements: true
         form: true
         status: true
-        blog: true
+#        blog: true

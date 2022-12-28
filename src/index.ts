@@ -9,7 +9,7 @@ import statusApi from "./apis/status";
 import announcementsApi from "./apis/announcements";
 import formApi from "./apis/form";
 import userApi, { userMap } from "./apis/user";
-import blogApi from "./apis/blog";
+//import blogApi from "./apis/blog";
 import log from "./utils/logUtil";
 import { join, dirname } from "path";
 import { fileURLToPath } from "url";
@@ -82,7 +82,7 @@ announcementsApi(fastify);
 formApi(fastify);
 statusApi(fastify);
 userApi(fastify);
-blogApi(fastify);
+//blogApi(fastify);
 
 fastify.listen(
 	{ port: config.app.port, host: isProd ? "0.0.0.0" : "localhost" },
